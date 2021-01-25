@@ -15,6 +15,9 @@ $factory->define(CollectionPoint::class, function (Faker $faker) {
         'address_line_2'     => $faker->streetName,
         'city'               => $faker->city,
         'county'             => $faker->county,
+        "start_pick_up_time"       => $faker->dateTime("+10 hours"),
+        "end_pick_up_time"       => $faker->dateTime("+15 hours"),
+        "cut_off_point"       => $faker->dateTime("+10 hours"),
         'post_code'          => $faker->postcode,
         'max_daily_capacity' => rand(50, 100),
     ];
