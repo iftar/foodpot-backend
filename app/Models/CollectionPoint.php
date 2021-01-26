@@ -20,6 +20,12 @@ class CollectionPoint extends Model
         'post_code',
         'max_daily_capacity',
         'delivery_radius',
+        "start_pick_up_time",
+        "end_pick_up_time",
+        "cut_off_point",
+        "set_quantity_per_person",
+        "logo",
+        "unique_url"
     ];
 
     protected $hidden = [

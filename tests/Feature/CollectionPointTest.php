@@ -143,6 +143,12 @@ class CollectionPointTest extends TestCase
             'city'              => 'Fake city',
             'county'            => 'Fake county',
             'post_code'         => 'F4 K3E',
+            "start_pick_up_time" => "2008-04-25 08:37:17",
+            "end_pick_up_time" => "2008-04-25 08:37:17",
+            "cut_off_point" => "2008-04-25 08:37:17",
+            "set_quantity_per_person" => 2,
+            "logo"  => "/ahmed-logo.jpg",
+            "unique_url" => "/ahmed-bank",
             'max_daily_capacity'=> 1310
         ]);
 
@@ -158,6 +164,12 @@ class CollectionPointTest extends TestCase
                     'city'              => 'Fake city',
                     'county'            => 'Fake county',
                     'post_code'         => 'F4 K3E',
+                    "start_pick_up_time" => "2008-04-25 08:37:17",
+                    "end_pick_up_time" => "2008-04-25 08:37:17",
+                    "cut_off_point" => "2008-04-25 08:37:17",
+                    "set_quantity_per_person" => 2,
+                    "logo"  => "/ahmed-logo.jpg",
+                    "unique_url" => "/ahmed-bank",
                     'max_daily_capacity'=> 1310
                 ]]]);
     }
