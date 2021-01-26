@@ -16,21 +16,22 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("type");
             $table->timestamps();
         });
 
-        Schema::create('collection_point_tags', function (Blueprint $table) {
+        Schema::create('collection_point_tag', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("collection_point_id");
-            $table->unsignedBigInteger("tags_id");
+            $table->unsignedBigInteger("tag_id");
             $table->timestamps();
 
-            $table->unique([ "collection_point_id", "tags_id"]);
+            $table->unique([ "collection_point_id", "tag_id"]);
             $table->foreign("collection_point_id")
                 ->references("id")
                 ->on("collection_points")
                 ->onDelete("cascade");
-            $table->foreign("tags_id")
+            $table->foreign("tag_id")
                 ->references("id")
                 ->on("tags")
                 ->onDelete("cascade");
