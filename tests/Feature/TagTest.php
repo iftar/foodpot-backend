@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\CollectionPoint;
 use App\Models\CollectionPointTag;
-use App\Models\User;
 use Tests\TestCase;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
