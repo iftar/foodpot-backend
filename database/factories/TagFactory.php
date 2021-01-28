@@ -8,6 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Tag::class, function (Faker $faker) {
     return [
         "name" => $faker->name,
-        "type" => Tag::MEAL_TYPE
+        "type" => Tag::FOOD_TYPE_TAG,
+        "image_url" => $faker->imageUrl()
     ];
 });

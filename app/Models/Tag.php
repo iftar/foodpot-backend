@@ -8,8 +8,8 @@ class Tag extends Model
 {
 
     // Types of Tags
-    const MEAL_TYPE = "MEAL_TYPE";
-    const DIETARY_REQUIREMENT = "DIETARY_REQUIREMENT";
+    const FOOD_TYPE_TAG = "FOOD_TYPE_TAG";
+    const DIETARY_REQUIREMENT_TAG = "DIETARY_REQUIREMENT_TAG";
 
     public function collection_points() {
         return $this->belongsToMany(CollectionPoint::class);
