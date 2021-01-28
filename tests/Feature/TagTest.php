@@ -25,4 +25,53 @@ class TagTest extends TestCase
         $this->assertEquals($tag->id, $collection_point->tags->first()->id);
         $this->assertEquals($collection_point->id, $tag->collection_points->first()->id);
     }
+
+    /** @test  */
+    public function dietary_requirements_endpoint_returns_scoped_tags()
+    {
+        $tags = factory(Tag::class, 12)->create([
+            "type" => Tag::DIETARY_REQUIREMENT_TAG
+        ]);
+        $collection_point = factory(CollectionPoint::class)->create();
+
+
+        foreach ($tags as $tag) {
+            CollectionPointTag::create([
+                "collection_point_id" => $collection_point->id,
+                "tag_id" => $tag->id
+            ]);
+        }
+
+
+        $response = $this->get("api/tags/dietary-requirements");
+        $response->assertJson([
+            'status' => 'success',
+            'data'   => $tags->toArray()
+            ]);
+
+    }
+    /** @test  */
+    public function food_type_endpoint_returns_scoped_tags()
+    {
+        $tags = factory(Tag::class, 12)->create([
+            "type" => Tag::FOOD_TYPE_TAG
+        ]);
+        $collection_point = factory(CollectionPoint::class)->create();
+
+
+        foreach ($tags as $tag) {
+            CollectionPointTag::create([
+                "collection_point_id" => $collection_point->id,
+                "tag_id" => $tag->id
+            ]);
+        }
+
+
+        $response = $this->get("api/tags/food-type");
+        $response->assertJson([
+            'status' => 'success',
+            'data'   => $tags->toArray()
+        ]);
+
+    }
 }
