@@ -21,6 +21,13 @@ class CharityService
             "name"                  => $data["name"],
             "registration_number"   => $data["registration_number"] ?? null,
             "max_delivery_capacity" => $data["max_delivery_capacity"] ?? 0,
+            'company_website'       => $data['company_website'],
+            'contact_telephone'     => $data['contact_telephone'],
+            'personal_email'        => $data['personal_email'],
+            'personal_number'       => $data['personal_number'],
+            'has_food_hygiene_cert' => $data['has_food_hygiene_cert'],
+            'logo'                  => $data['logo'],
+
         ]);
 
         event(new Created($charity));
@@ -34,6 +41,12 @@ class CharityService
             'name'                  => $data['name'] ?? $charity->name,
             'registration_number'   => $data['registration_number'] ?? $charity->registration_number,
             'max_delivery_capacity' => $data['max_delivery_capacity'] ?? $charity->max_delivery_capacity,
+            'company_website'       => $data['company_website'] ?? $charity->company_website,
+            'contact_telephone'     => $data['contact_telephone'] ?? $charity->contact_telephone,
+            'personal_email'        => $data['personal_email'] ?? $charity->personal_email,
+            'personal_number'       => $data['personal_number'] ?? $charity->personal_number,
+            'has_food_hygiene_cert' => $data['has_food_hygiene_cert'] ?? $charity->has_food_hygiene_cert,
+            'logo'                  => $data['logo'] ?? $charity->logo,
         ]);
 
         event(new Updated($charity));

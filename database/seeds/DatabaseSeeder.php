@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(OauthClientSeeder::class);
         $this->call(OrderSeeder::class);
+        $this->call(TagSeeder::class);
     }
 }

@@ -8,14 +8,14 @@ class CollectionPointService
 {
     public function get($id)
     {
-        return CollectionPoint::with(['collectionPointTimeSlots'])
+        return CollectionPoint::with('collectionPointTimeSlots', "tags")
                               ->where('id', $id)
                               ->first();
     }
 
     public function list()
     {
-        return CollectionPoint::with('collectionPointTimeSlots')->paginate(15);
+        return CollectionPoint::with('collectionPointTimeSlots', "tags")->paginate(15);
     }
 
     public function listNearLatLong($userLat, $userLong)

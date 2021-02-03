@@ -14,6 +14,12 @@ class Charity extends Model
         'name',
         'registration_number',
         'max_delivery_capacity',
+        'company_website',
+        'contact_telephone',
+        'personal_email',
+        'personal_number',
+        'has_food_hygiene_cert',
+        'logo'
     ];
 
     protected $casts = [

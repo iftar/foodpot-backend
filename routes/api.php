@@ -19,6 +19,8 @@ Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 Route::post('forgot-password', 'PasswordResetController@index');
 Route::post('resend-verify-email', 'AuthController@resendVerifyEmail');
+Route::get("/tags/dietary-requirements", "TagController@getDietaryRequirementsTags");
+Route::get("/tags/food-type", "TagController@getFoodTypeTags");
 
 // Authenticated
 Route::group(['middleware' => ['auth:api']], function () {

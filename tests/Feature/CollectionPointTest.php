@@ -191,4 +191,16 @@ class CollectionPointTest extends TestCase
                 'status' => 'success',
                 'data'   => [ 'can_deliver_to_location' => false ]]);
     }
+
+    public function testGetCollectionPointNearMe()
+    {
+        factory(CollectionPoint::class)->create();
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user, "api")->postJson('/api/collection-points/near-me', [
+            'postcode' => 'IG1 4DU'
+        ]);
+
+        $response
+            ->assertStatus(200);
+    }
 }
