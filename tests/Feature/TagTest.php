@@ -18,8 +18,8 @@ class TagTest extends TestCase
         $tag = factory(Tag::class)->create();
         $collection_point = factory(CollectionPoint::class)->create();
         $collection_point_tag = CollectionPointTag::create([
-            "collection_point_id" => $collection_point->id,
-            "tag_id" => $tag->id
+            'collection_point_id' => $collection_point->id,
+            'tag_id' => $tag->id
         ]);
 
         $this->assertEquals($tag->id, $collection_point->tags->first()->id);
@@ -27,23 +27,15 @@ class TagTest extends TestCase
     }
 
     /** @test  */
-    public function dietary_requirements_endpoint_returns_scoped_tags()
+    public function dietary_requirements_endpoint_returns_tags()
     {
         $tags = factory(Tag::class, 12)->create([
-            "type" => Tag::DIETARY_REQUIREMENT_TAG
+            'type' => Tag::DIETARY_REQUIREMENT_TAG
         ]);
         $collection_point = factory(CollectionPoint::class)->create();
 
 
-        foreach ($tags as $tag) {
-            CollectionPointTag::create([
-                "collection_point_id" => $collection_point->id,
-                "tag_id" => $tag->id
-            ]);
-        }
-
-
-        $response = $this->get("api/tags/dietary-requirements");
+        $response = $this->get('api/tags/dietary-requirements');
         $response->assertJson([
             'status' => 'success',
             'data'   => $tags->toArray()
@@ -51,23 +43,15 @@ class TagTest extends TestCase
 
     }
     /** @test  */
-    public function food_type_endpoint_returns_scoped_tags()
+    public function food_type_endpoint_returns_tags()
     {
         $tags = factory(Tag::class, 12)->create([
-            "type" => Tag::FOOD_TYPE_TAG
+            'type' => Tag::FOOD_TYPE_TAG
         ]);
         $collection_point = factory(CollectionPoint::class)->create();
 
 
-        foreach ($tags as $tag) {
-            CollectionPointTag::create([
-                "collection_point_id" => $collection_point->id,
-                "tag_id" => $tag->id
-            ]);
-        }
-
-
-        $response = $this->get("api/tags/food-type");
+        $response = $this->get('api/tags/food-type');
         $response->assertJson([
             'status' => 'success',
             'data'   => $tags->toArray()
