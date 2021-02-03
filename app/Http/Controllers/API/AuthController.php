@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\CharityUser;
 use App\Models\User;
+use App\Services\Charity\CharityService;
 use App\Services\UserService;
 use Illuminate\Http\Response;
 use App\Services\AuthService;
@@ -46,6 +48,8 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request, UserService $userService)
     {
+        $types  = [ "admin", "user", "charity", "collection-point"];
+
         if ($userService->exists($request->input('email'))) {
             return response()->json([
                 'status'  => 'error',
@@ -53,7 +57,24 @@ class AuthController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        if (!in_array($request->input('type'), $types) ) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Invalid Type provided'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $user = $userService->create($request->all());
+        if($request->input("type") === "charity") {
+            $charity = (new CharityService)->create([
+                "name" => $request->input("charity_name")
+            ]);
+
+            CharityUser::create([
+                "user_id" => $user->id,
+                "charity_id" => $charity->id
+            ]);
+        }
+
 
         return response()->json([
             'status' => 'success',

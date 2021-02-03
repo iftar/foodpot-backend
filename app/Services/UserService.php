@@ -33,7 +33,7 @@ class UserService
             'last_name'  => $data['last_name'] ?? null,
             'email'      => $data['email'],
             'password'   => bcrypt($data['password']),
-            'type'       => 'user',
+            'type'       => $data['type'],
             'status'     => 'approved',
         ]);
 

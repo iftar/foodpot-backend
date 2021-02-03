@@ -16,8 +16,8 @@ class CreateCharitiesTable extends Migration
         Schema::create('charities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('registration_number');
-            $table->integer('max_delivery_capacity');
+            $table->string('registration_number')->nullable();
+            $table->integer('max_delivery_capacity')->default(0);
             $table->timestamps();
         });
     }
