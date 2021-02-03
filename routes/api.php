@@ -19,6 +19,7 @@ Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 Route::post('forgot-password', 'PasswordResetController@index');
 Route::post('resend-verify-email', 'AuthController@resendVerifyEmail');
+Route::get('/collection-points/{id}/meals', 'CollectionPointController@getMeals');
 
 // Authenticated
 Route::group(['middleware' => ['auth:api']], function () {
