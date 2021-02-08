@@ -108,7 +108,12 @@ class CollectionPoint extends Model
 
         return $smsService->sendMessage($smsMessage);
     }
+
+    public function meals() {
+        return $this->hasMany(Meal::class);
+
     public function tags() {
         return $this->belongsToMany(Tag::class);
+
     }
 }

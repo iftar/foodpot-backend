@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Request;
+use App\Models\CollectionPoint;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\All\PostcodeService;
@@ -92,6 +94,25 @@ class CollectionPointController extends Controller
             'data'   => [
                 'can_deliver_to_location' => $canDeliverToLocation,
             ]
+        ]);
+    }
+
+    public function getMeals($id) {
+        $collectionPoint = CollectionPoint::find($id);
+
+        if($collectionPoint == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Collection point ID: {$id}  does not exist"
+            ], 404);
+        }
+        $meals  = $collectionPoint->meals->filter(function ($meal) {
+            return $meal->quantity > 0;
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => $meals->toArray()
         ]);
     }
 }
