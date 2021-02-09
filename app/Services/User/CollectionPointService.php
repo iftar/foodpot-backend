@@ -13,7 +13,7 @@ class CollectionPointService
 
     public function list()
     {
-        return CollectionPoint::all();
+        return CollectionPoint::paginate(15);
     }
 
     public function listNearLatLong($userLat, $userLong)
@@ -24,7 +24,7 @@ class CollectionPointService
 
         foreach ($collectionPoints as $collectionPoint)
         {
-            if( 
+            if(
                 $this->getDistanceBetweenPoints(
                     $userLat,
                     $userLong,
@@ -58,6 +58,6 @@ class CollectionPointService
         $miles = acos($miles);
         $miles = rad2deg($miles);
         $miles = $miles * 60 * 1.1515;
-        return $miles; 
+        return $miles;
     }
 }

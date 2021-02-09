@@ -31,7 +31,7 @@ class CollectionPointController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Postcode paramaters are required.',
-            ]);
+            ], 500);
         }
 
         $userLocation = $postcodeService->getLatLongForPostCode($postCode);
