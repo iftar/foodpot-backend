@@ -16,11 +16,25 @@ class CollectionPointService
         return CollectionPoint::paginate(15);
     }
 
-    public function listNearLatLong($userLat, $userLong)
+    public function filterByTags($collection_points, $tags) {
+        $filtered = [];
+
+        foreach($collection_points as $collection_point) {
+            foreach ($collection_point->tags as $tag) {
+                if(in_array($tag->id, $tags)) {
+                    array_push($filtered, $collection_point);
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+    public function listNearLatLong($collectionPoints, $userLat, $userLong)
     {
         $radius = config('shareiftar.radius');
         $nearestPoints = [];
-        $collectionPoints = CollectionPoint::all();
+//        $collectionPoints = CollectionPoint::all();
 
         foreach ($collectionPoints as $collectionPoint)
         {

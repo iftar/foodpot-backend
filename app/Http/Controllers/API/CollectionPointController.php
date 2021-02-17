@@ -25,6 +25,15 @@ class CollectionPointController extends Controller
     public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
     {
         $postCode = $request->input('postcode');
+        $food_type_filter = $request->input("food_type_filter") ?? [];
+        $dietary_requirements_filter = $request->input("dietary_requirements_filter") ?? [];
+
+        $tags = array_merge($food_type_filter, $dietary_requirements_filter);
+        if(!empty($tags)) {
+            $filteredCollectionPoints = $collectionPointService->filterByTags(CollectionPoint::all(), $tags);
+        } else {
+            $filteredCollectionPoints = CollectionPoint::all();
+        }
 
         if( !$postCode)
         {
@@ -48,7 +57,7 @@ class CollectionPointController extends Controller
             'status' => 'success',
             'data'   => [
                 'collection_points' => $collectionPointService->listNearLatLong(
-                    $userLocation["latitude"], $userLocation["longitude"]
+                    $filteredCollectionPoints, $userLocation["latitude"], $userLocation["longitude"]
                 )
             ]
         ]);
