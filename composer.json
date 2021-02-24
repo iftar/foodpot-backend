@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "ext-json": "*",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
@@ -20,10 +20,12 @@
         "laravel/passport": "^8.4",
         "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.0",
+        "lcobucci/jwt": "3.3.3",
         "league/csv": "^9.6",
         "messagebird/php-rest-api": "^1.16",
-        "sentry/sentry-laravel": "1.7.0",
-        "lcobucci/jwt": "3.3.3"
+        "phpseclib/bcmath_compat": "^1.0",
+        "phpseclib/phpseclib": "^2.0",
+        "sentry/sentry-laravel": "1.7.0"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",

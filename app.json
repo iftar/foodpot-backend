@@ -6,5 +6,9 @@
         "postdeploy": "php artisan migrate:fresh --seed --force"
       }
     }
-  }
+  },
+  "require": {
+    "php": "^7.4.0"
+  },
+  "stack": "heroku-18"
 }
