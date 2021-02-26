@@ -16,7 +16,6 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'required_date',
-        'quantity',
         'collection_point_id',
         'collection_point_time_slot_id',
         'first_name',

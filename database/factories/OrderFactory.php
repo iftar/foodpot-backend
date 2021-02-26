@@ -39,7 +39,6 @@ $factory->define(Order::class, function (Faker $faker, $options) {
     return [
         'user_id'                       => $user->id,
         'required_date'                 => $requiredDate,
-        'quantity'                      => rand(1, 5),
         'collection_point_id'           => $collectionPoint->id,
         'collection_point_time_slot_id' => $collectionPointTimeSlot->id,
         'first_name'                    => $faker->firstName,

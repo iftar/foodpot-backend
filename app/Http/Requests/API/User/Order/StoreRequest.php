@@ -9,7 +9,6 @@ class StoreRequest extends AuthenticatedRequest
     public function rules()
     {
         return [
-            'quantity'                      => 'required|numeric|gt:0',
             'collection_point_id'           => 'required|exists:collection_points,id',
             'collection_point_time_slot_id' => 'required|exists:collection_point_time_slots,id',
             'first_name'                    => 'required',
