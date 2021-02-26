@@ -85,4 +85,7 @@ class Order extends Model
     {
         return $this->collectionPointTimeSlot->type;
     }
+   public function meals() {
+        return $this->belongsToMany(Meal::class)->withPivot("quantity");
+   }
 }
