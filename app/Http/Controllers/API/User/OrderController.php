@@ -79,9 +79,20 @@ class OrderController extends Controller
                 'message' => $canOrder["messages"],
             ], Response::HTTP_BAD_REQUEST);
         }
+        if( empty($request->meals) ) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "You have not added meals to your order.",
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        $order = $orderService->create($orderService->getFillable($request), $request->meals);
 
-        $order = $orderService->create($orderService->getFillable($request));
-
+        if ( $order['status'] === "error") {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $order["message"],
+            ], Response::HTTP_BAD_REQUEST);
+        }
         return response()->json([
             'status' => 'success',
             'data'   => [

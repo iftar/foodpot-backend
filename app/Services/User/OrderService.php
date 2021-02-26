@@ -2,11 +2,15 @@
 
 namespace App\Services\User;
 
+use App\Models\Meal;
+use App\Models\MealOrder;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Events\Order\Created;
 use App\Events\Order\Updated;
 use App\Models\CollectionPointTimeSlot;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
@@ -28,13 +32,41 @@ class OrderService
                     ->first();
     }
 
-    public function create($data)
+    public function create($data, array $meals)
     {
         $user = auth()->user();
-
+        $meals = collect($meals);
         $data['required_date'] = now('Europe/London');
 
+        DB::beginTransaction();
+
         $order = $user->orders()->create($data);
+
+        foreach ($meals as $meal) {
+            try {
+                $existing_meal = Meal::findOrFail($meal["meal_id"]);
+                // quantity
+                if ($meal["quantity"] <= $existing_meal->quantity) {
+                    $order->meals()->attach($existing_meal->id, [
+                        "quantity" => $meal["quantity"]
+                    ]);
+                    $existing_meal->quantity = $existing_meal->quantity - $meal["quantity"];
+                    $existing_meal->save();
+                }
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return [
+                    'status'  => 'error',
+                    'message' => "The meal does not exist",
+                ];
+            }
+
+        }
+
+        DB::commit();
+
+
 
         event(new Created($order));
 
