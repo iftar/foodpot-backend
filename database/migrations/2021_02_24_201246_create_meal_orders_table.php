@@ -19,6 +19,15 @@ class CreateMealOrdersTable extends Migration
             $table->unsignedBigInteger("order_id");
             $table->integer("quantity");
             $table->timestamps();
+
+            $table->foreign('meal_id')
+                ->references('id')
+                ->on('meals')
+                ->onDelete("cascade");
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders');
+
         });
     }
 
