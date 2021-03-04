@@ -10,7 +10,7 @@ $factory->define(Meal::class, function (Faker $faker) {
     return [
         "name" => $faker->name,
         "description" => $faker->sentence(7),
-        "quantity" => $faker->numberBetween(3, 80),
+        "total_quantity_available" => $faker->numberBetween(3, 80),
         "collection_point_id" => $collection_point->id,
     ];
 });
