@@ -55,10 +55,16 @@ class CollectionPointController extends Controller
 
     public function show($id, AuthenticatedRequest $request, CollectionPointService $collectionPointService)
     {
+        if( !is_numeric($id) ) {
+            $collection_point = CollectionPoint::where("slug", $id)->first();
+        } else {
+            $collection_point = $collectionPointService->get($id);
+         }
+
         return response()->json([
             'status' => 'success',
             'data'   => [
-                'collection_point' => $collectionPointService->get($id)
+                'collection_point' => $collection_point
             ]
         ]);
     }
