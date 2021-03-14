@@ -23,7 +23,9 @@
         "league/csv": "^9.6",
         "messagebird/php-rest-api": "^1.16",
         "sentry/sentry-laravel": "1.7.0",
-        "lcobucci/jwt": "3.3.3"
+        "lcobucci/jwt": "3.3.3",
+        "moontoast/math": "1.1.2 as 1.999.999",
+        "phpseclib/bcmath_compat": "1.0.4"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
