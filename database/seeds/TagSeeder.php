@@ -15,6 +15,8 @@ class TagSeeder extends Seeder
     {
         // 10 Users with no Orders
         factory(\App\Models\Tag::class, 12)->create();
+        factory(\App\Models\Meal::class, 32)->create();
+        factory(\App\Models\MealTag::class, 12)->create();
 
     }
 }

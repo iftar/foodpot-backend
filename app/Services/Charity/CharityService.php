@@ -19,14 +19,14 @@ class CharityService
     {
         $charity = Charity::create([
             "name"                  => $data["name"],
-            "registration_number"   => $data["registration_number"] ?? null,
-            "max_delivery_capacity" => $data["max_delivery_capacity"] ?? 0,
-            'company_website'       => $data['company_website'],
-            'contact_telephone'     => $data['contact_telephone'],
-            'personal_email'        => $data['personal_email'],
-            'personal_number'       => $data['personal_number'],
-            'has_food_hygiene_cert' => $data['has_food_hygiene_cert'],
-            'logo'                  => $data['logo'],
+            "registration_number"   => isset($data["registration_number"]) ? $data["registration_number"] : null,
+            "max_delivery_capacity" => isset($data["max_delivery_capacity"]) ? $data["max_delivery_capacity"] :  0,
+            'company_website'       => isset($data['company_website']) ? $data['company_website'] : null,
+            'contact_telephone'     => isset($data['contact_telephone']) ?  $data['contact_telephone'] : null,
+            'personal_email'        => isset($data['personal_email']) ?  $data['personal_email'] : null,
+            'personal_number'       => isset($data['personal_number']) ?  $data['personal_number'] : null,
+            'has_food_hygiene_cert' => isset($data['has_food_hygiene_cert' ]) ? $data['has_food_hygiene_cert' ] : false,
+            'logo'                  => isset($data['logo']) ? $data['logo'] : null,
 
         ]);
 
