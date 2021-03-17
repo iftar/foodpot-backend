@@ -6,5 +6,15 @@
         "postdeploy": "php artisan migrate:fresh --seed --force"
       }
     }
-  }
+  },
+    "env": {
+        "DB_CONNECTION": {
+            "description": "Database connection type",
+            "value": "pgsql"
+        }
+    },
+    "require": {
+        "php": "^7.4.0"
+    },
+    "stack": "heroku-20"
 }

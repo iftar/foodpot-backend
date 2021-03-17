@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Request;
 use App\Models\CollectionPoint;
+use App\Models\Meal;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\All\PostcodeService;
@@ -24,13 +25,22 @@ class CollectionPointController extends Controller
     public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
     {
         $postCode = $request->input('postcode');
+        $food_type_filter = $request->input("food_type_filter") ?? [];
+        $dietary_requirements_filter = $request->input("dietary_requirements_filter") ?? [];
+
+        $tags = array_merge($food_type_filter, $dietary_requirements_filter);
+        if(!empty($tags)) {
+            $filteredCollectionPoints = $collectionPointService->filterByTags(CollectionPoint::all(), $tags);
+        } else {
+            $filteredCollectionPoints = CollectionPoint::all();
+        }
 
         if( !$postCode)
         {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Postcode paramaters are required.',
-            ]);
+            ], 500);
         }
 
         $userLocation = $postcodeService->getLatLongForPostCode($postCode);
@@ -47,7 +57,7 @@ class CollectionPointController extends Controller
             'status' => 'success',
             'data'   => [
                 'collection_points' => $collectionPointService->listNearLatLong(
-                    $userLocation["latitude"], $userLocation["longitude"]
+                    $filteredCollectionPoints, $userLocation["latitude"], $userLocation["longitude"]
                 )
             ]
         ]);
@@ -98,15 +108,15 @@ class CollectionPointController extends Controller
     }
 
     public function getMeals($id) {
-        $collectionPoint = CollectionPoint::find($id);
+        $meals = Meal::with("tags")->where("collection_point_id", $id)->get();
 
-        if($collectionPoint == null) {
+        if($meals->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => "Collection point ID: {$id}  does not exist"
+                'message' => "Collection point ID: {$id}  does have any meals or does not exist"
             ], 404);
         }
-        $meals  = $collectionPoint->meals->filter(function ($meal) {
+        $meals  = $meals->filter(function ($meal) {
             return $meal->quantity > 0;
         });
 
