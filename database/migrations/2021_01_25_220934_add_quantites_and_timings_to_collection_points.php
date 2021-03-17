@@ -14,9 +14,7 @@ class AddQuantitesAndTimingsToCollectionPoints extends Migration
     public function up()
     {
         Schema::table('collection_points', function (Blueprint $table) {
-            $table->dateTime('start_pick_up_time');
-            $table->dateTime('end_pick_up_time');
-            $table->dateTime("cut_off_point");
+            $table->time("cut_off_point");
             $table->integer("set_quantity_per_person")->default(1);
             $table->string("logo")->nullable();
             $table->string("unique_url")->nullable();

@@ -110,7 +110,7 @@ class OrderService
         );
     }
 
-    public function canOrder()
+    public function canOrder(CollectionPointTimeSlot $collectionPointTimeSlot)
     {
         $result = [
             'user_can_order'             => false,
@@ -137,7 +137,7 @@ class OrderService
         // check if between 12am and 3pm
         $now   = Carbon::now('Europe/London');
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
-        $end   = Carbon::createFromTimeString('15:00', 'Europe/London');
+        $end   = Carbon::createFromTimeString($collectionPointTimeSlot->collectionPoint->cut_off_point, 'Europe/London');
 
         if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) $result['time_passed_daily_deadline'] = false;
         else $result['messages'][] = "Today's deadline time has passed.";

@@ -63,16 +63,8 @@ class OrderController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $acceptingOrders = $orderService->collectionPointAcceptingOrders($collectionPointTimeSlot);
-        if ( ! $acceptingOrders ) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Collection point was not able to accept this order.',
-            ], Response::HTTP_BAD_REQUEST);
-        }
 
-
-        $canOrder = $orderService->canOrder();
+        $canOrder = $orderService->canOrder($collectionPointTimeSlot);
         if ( ! $canOrder['user_can_order'] ) {
             return response()->json([
                 'status'  => 'error',
