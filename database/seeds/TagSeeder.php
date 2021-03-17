@@ -17,7 +17,6 @@ class TagSeeder extends Seeder
         factory(\App\Models\Tag::class, 12)->create();
         factory(\App\Models\Meal::class, 32)->create();
         factory(\App\Models\MealTag::class, 12)->create();
-        factory(\App\Models\CollectionPointTag::class, 12)->create();
 
     }
 }

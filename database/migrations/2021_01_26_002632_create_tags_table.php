@@ -21,22 +21,7 @@ class CreateTagsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('collection_point_tag', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("collection_point_id");
-            $table->unsignedBigInteger("tag_id");
-            $table->timestamps();
 
-            $table->unique([ "collection_point_id", "tag_id"]);
-            $table->foreign("collection_point_id")
-                ->references("id")
-                ->on("collection_points")
-                ->onDelete("cascade");
-            $table->foreign("tag_id")
-                ->references("id")
-                ->on("tags")
-                ->onDelete("cascade");
-        });
         Schema::create('meal_tag', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("meal_id");
