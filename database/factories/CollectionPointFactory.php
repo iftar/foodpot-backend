@@ -20,5 +20,6 @@ $factory->define(CollectionPoint::class, function (Faker $faker) {
         "cut_off_point"       => $faker->dateTime("+10 hours"),
         'post_code'          => $faker->postcode,
         'max_daily_capacity' => rand(50, 100),
+        "slug" => $faker->slug
     ];
 });
