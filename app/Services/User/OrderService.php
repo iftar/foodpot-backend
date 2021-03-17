@@ -44,7 +44,9 @@ class OrderService
 
         foreach ($meals as $meal) {
             try {
-                $existing_meal = Meal::findOrFail($meal["meal_id"]);
+                $existing_meal = Meal::find($meal["meal_id"]);
+                if(!$existing_meal)  throw new \Exception("The meal does not exist");
+                if ($existing_meal->collection_point_id !=  $data["collection_point_id"] ) throw new \Exception("Meal does not belong to the collection point");
                 // quantity
                 if ($meal["quantity"] <= $existing_meal->quantity) {
                     $order->meals()->attach($existing_meal->id, [
@@ -58,7 +60,7 @@ class OrderService
                 DB::rollBack();
                 return [
                     'status'  => 'error',
-                    'message' => "The meal does not exist",
+                    'message' => $e->getMessage(),
                 ];
             }
 
