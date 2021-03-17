@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\CollectionPoint;
 use App\Models\CollectionPointTag;
+use App\Models\Meal;
+use App\Models\MealTag;
 use Tests\TestCase;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,13 +19,15 @@ class TagTest extends TestCase
     {
         $tag = factory(Tag::class)->create();
         $collection_point = factory(CollectionPoint::class)->create();
-        $collection_point_tag = CollectionPointTag::create([
-            'collection_point_id' => $collection_point->id,
-            'tag_id' => $tag->id
+        $meals = factory(Meal::class)->create([
+            "collection_point_id" => $collection_point->id
         ]);
 
-        $this->assertEquals($tag->id, $collection_point->tags->first()->id);
-        $this->assertEquals($collection_point->id, $tag->collection_points->first()->id);
+        factory(MealTag::class)->create([
+            "meal_id" => $meals->id,
+            "tag_id" => $tag->id
+        ]);
+        $this->assertTrue($collection_point->tags->pluck("id")->contains($tag->id));
     }
 
     /** @test  */

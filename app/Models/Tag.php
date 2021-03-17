@@ -14,4 +14,7 @@ class Tag extends Model
     public function collection_points() {
         return $this->belongsToMany(CollectionPoint::class);
     }
+    public function meals() {
+        return $this->belongsToMany(Meal::class);
+    }
 }

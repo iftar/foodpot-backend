@@ -25,11 +25,14 @@ class CollectionPoint extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
+        "collectionPointTimeSlots",
+        "meals"
     ];
 
     protected $casts = [
         'max_daily_capacity' => 'integer',
         'delivery_radius' => 'integer',
+        "quantity_of_meals" => "integer"
     ];
 
     protected $appends = [
@@ -37,6 +40,7 @@ class CollectionPoint extends Model
         'accepting_orders',
         'accepting_collections',
         'accepting_deliveries',
+        'tags'
     ];
 
     public function users()
@@ -113,7 +117,7 @@ class CollectionPoint extends Model
     {
         return $this->hasMany(Meal::class);
     }
-    public function tags() {
-        return $this->belongsToMany(Tag::class);
+    public function getTagsAttribute() {
+        return $this->meals->map->tags->flatten();
     }
 }

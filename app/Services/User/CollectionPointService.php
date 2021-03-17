@@ -8,25 +8,37 @@ class CollectionPointService
 {
     public function get($id)
     {
-        return CollectionPoint::with('collectionPointTimeSlots', "tags")
-                              ->where('id', $id)
-                              ->first();
+        return CollectionPoint::where('id', $id)->first();
     }
 
     public function list()
     {
-        return CollectionPoint::with('collectionPointTimeSlots', "tags")->paginate(15);
+        return CollectionPoint::paginate(15);
     }
 
-    public function listNearLatLong($userLat, $userLong)
+    public function filterByTags($collection_points, $tags) {
+        $filtered = [];
+
+        foreach($collection_points as $collection_point) {
+            foreach ($collection_point->tags as $tag) {
+                if(in_array($tag->id, $tags)) {
+                    array_push($filtered, $collection_point);
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
+    public function listNearLatLong($collectionPoints, $userLat, $userLong)
     {
         $radius = config('shareiftar.radius');
         $nearestPoints = [];
-        $collectionPoints = CollectionPoint::all();
+//        $collectionPoints = CollectionPoint::all();
 
         foreach ($collectionPoints as $collectionPoint)
         {
-            if( 
+            if(
                 $this->getDistanceBetweenPoints(
                     $userLat,
                     $userLong,
@@ -60,6 +72,6 @@ class CollectionPointService
         $miles = acos($miles);
         $miles = rad2deg($miles);
         $miles = $miles * 60 * 1.1515;
-        return $miles; 
+        return $miles;
     }
 }

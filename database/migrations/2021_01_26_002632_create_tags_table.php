@@ -21,16 +21,17 @@ class CreateTagsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('collection_point_tag', function (Blueprint $table) {
+
+        Schema::create('meal_tag', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("collection_point_id");
+            $table->unsignedBigInteger("meal_id");
             $table->unsignedBigInteger("tag_id");
             $table->timestamps();
 
-            $table->unique([ "collection_point_id", "tag_id"]);
-            $table->foreign("collection_point_id")
+            $table->unique([ "meal_id", "tag_id"]);
+            $table->foreign("meal_id")
                 ->references("id")
-                ->on("collection_points")
+                ->on("meals")
                 ->onDelete("cascade");
             $table->foreign("tag_id")
                 ->references("id")
@@ -48,5 +49,6 @@ class CreateTagsTable extends Migration
     {
         Schema::dropIfExists('tags');
         Schema::dropIfExists("collection_point_tags");
+        Schema::dropIfExists("meal_tags");
     }
 }
