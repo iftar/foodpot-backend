@@ -19,5 +19,6 @@ $factory->define(CollectionPoint::class, function (Faker $faker) {
         "cut_off_point"      => Carbon::now()->addHours(1)->toTimeString(),
         'post_code'          => $faker->postcode,
         'max_daily_capacity' => rand(50, 100),
+        "slug" => $faker->slug
     ];
 });
