@@ -29,7 +29,7 @@ class AddQuantitesAndTimingsToCollectionPoints extends Migration
     public function down()
     {
         Schema::table('collection_points', function (Blueprint $table) {
-            $table->dropColumn([ "cut_off_point", "set_quantity_per_person", "logo", "unique_url"]);
+            $table->dropColumn([ "cut_off_point", "set_quantity_per_person", "logo", "slug"]);
         });
     }
 }
