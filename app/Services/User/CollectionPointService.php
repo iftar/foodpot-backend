@@ -8,12 +8,14 @@ class CollectionPointService
 {
     public function get($id)
     {
-        return CollectionPoint::where('id', $id)->first();
+        return CollectionPoint::with(['collectionPointTimeSlots', 'meals'])
+                                ->where('id', $id)
+                                ->first();
     }
 
     public function list()
     {
-        return CollectionPoint::paginate(15);
+        return CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->paginate(15);
     }
 
     public function filterByTags($collection_points, $tags) {
@@ -34,7 +36,6 @@ class CollectionPointService
     {
         $radius = config('shareiftar.radius');
         $nearestPoints = [];
-//        $collectionPoints = CollectionPoint::all();
 
         foreach ($collectionPoints as $collectionPoint)
         {
