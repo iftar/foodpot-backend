@@ -123,7 +123,7 @@ class CollectionPointController extends Controller
             ], 404);
         }
         $meals  = $meals->filter(function ($meal) {
-            return $meal->quantity > 0;
+            return $meal->total_quantity_available > 0;
         });
 
         return response()->json([

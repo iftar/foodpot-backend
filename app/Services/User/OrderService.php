@@ -48,11 +48,11 @@ class OrderService
                 if(!$existing_meal)  throw new \Exception("The meal does not exist");
                 if ($existing_meal->collection_point_id !=  $data["collection_point_id"] ) throw new \Exception("Meal does not belong to the collection point");
                 // quantity
-                if ($meal["quantity"] <= $existing_meal->quantity) {
+                if ($meal["quantity"] <= $existing_meal->total_quantity_available) {
                     $order->meals()->attach($existing_meal->id, [
                         "quantity" => $meal["quantity"]
                     ]);
-                    $existing_meal->quantity = $existing_meal->quantity - $meal["quantity"];
+                    $existing_meal->total_quantity_available = $existing_meal->total_quantity_available - $meal["quantity"];
                     $existing_meal->save();
                 }
 
