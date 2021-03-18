@@ -2,11 +2,15 @@
 
 namespace App\Services\User;
 
+use App\Models\Meal;
+use App\Models\MealOrder;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Events\Order\Created;
 use App\Events\Order\Updated;
 use App\Models\CollectionPointTimeSlot;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
@@ -28,13 +32,43 @@ class OrderService
                     ->first();
     }
 
-    public function create($data)
+    public function create($data, array $meals)
     {
         $user = auth()->user();
-
+        $meals = collect($meals);
         $data['required_date'] = now('Europe/London');
 
+        DB::beginTransaction();
+
         $order = $user->orders()->create($data);
+
+        foreach ($meals as $meal) {
+            try {
+                $existing_meal = Meal::find($meal["meal_id"]);
+                if(!$existing_meal)  throw new \Exception("The meal does not exist");
+                if ($existing_meal->collection_point_id !=  $data["collection_point_id"] ) throw new \Exception("Meal does not belong to the collection point");
+                // quantity
+                if ($meal["quantity"] <= $existing_meal->total_quantity_available) {
+                    $order->meals()->attach($existing_meal->id, [
+                        "quantity" => $meal["quantity"]
+                    ]);
+                    $existing_meal->total_quantity_available = $existing_meal->total_quantity_available - $meal["quantity"];
+                    $existing_meal->save();
+                }
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return [
+                    'status'  => 'error',
+                    'message' => $e->getMessage(),
+                ];
+            }
+
+        }
+
+        DB::commit();
+
+
 
         event(new Created($order));
 
@@ -78,7 +112,7 @@ class OrderService
         );
     }
 
-    public function canOrder()
+    public function canOrder(CollectionPointTimeSlot $collectionPointTimeSlot)
     {
         $result = [
             'user_can_order'             => false,
@@ -105,7 +139,7 @@ class OrderService
         // check if between 12am and 3pm
         $now   = Carbon::now('Europe/London');
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
-        $end   = Carbon::createFromTimeString('15:00', 'Europe/London');
+        $end   = Carbon::createFromTimeString($collectionPointTimeSlot->collectionPoint->cut_off_point, 'Europe/London');
 
         if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) $result['time_passed_daily_deadline'] = false;
         else $result['messages'][] = "Today's deadline time has passed.";

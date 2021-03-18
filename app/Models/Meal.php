@@ -14,7 +14,13 @@ class Meal extends Model
     public function collectionPoint() {
         return $this->belongsTo(CollectionPoint::class );
     }
+
+    public function orders() {
+        return $this->belongsToMany(Order::class);
+    }
+
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
+
 }

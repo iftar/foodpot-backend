@@ -17,7 +17,7 @@ class CreateMealsTable extends Migration
             $table->id();
             $table->string("name");
             $table->string("description")->nullable();
-            $table->integer("quantity");
+            $table->integer("total_quantity_available");
             $table->unsignedBigInteger("collection_point_id");
             $table->timestamps();
         });

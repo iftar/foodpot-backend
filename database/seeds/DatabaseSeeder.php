@@ -14,5 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OauthClientSeeder::class);
         $this->call(OrderSeeder::class);
         $this->call(TagSeeder::class);
+        $this->call(MealSeeder::class);
+        factory("App\Models\User")->create([ "email" => "afmire877@gmail.com", "password" => \Illuminate\Support\Facades\Hash::make("ahmed123")]);
     }
 }

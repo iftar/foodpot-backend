@@ -63,25 +63,28 @@ class OrderController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $acceptingOrders = $orderService->collectionPointAcceptingOrders($collectionPointTimeSlot);
-        if ( ! $acceptingOrders ) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Collection point was not able to accept this order.',
-            ], Response::HTTP_BAD_REQUEST);
-        }
 
-
-        $canOrder = $orderService->canOrder();
+        $canOrder = $orderService->canOrder($collectionPointTimeSlot);
         if ( ! $canOrder['user_can_order'] ) {
             return response()->json([
                 'status'  => 'error',
                 'message' => $canOrder["messages"],
             ], Response::HTTP_BAD_REQUEST);
         }
+        if( empty($request->meals) ) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "You have not added meals to your order.",
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        $order = $orderService->create($orderService->getFillable($request), $request->meals);
 
-        $order = $orderService->create($orderService->getFillable($request));
-
+        if ( $order['status'] === "error") {
+            return response()->json([
+                'status'  => 'error',
+                'message' => $order["message"],
+            ], Response::HTTP_BAD_REQUEST);
+        }
         return response()->json([
             'status' => 'success',
             'data'   => [

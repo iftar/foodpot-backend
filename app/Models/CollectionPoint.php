@@ -25,8 +25,6 @@ class CollectionPoint extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        "collectionPointTimeSlots",
-        "meals"
     ];
 
     protected $casts = [
