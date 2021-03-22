@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthController extends Controller
             abort(404);
         }
 
-        if ($user->hasVerifiedEmail()) {
+        if ($user instanceof MustVerifyEmail && $user->hasVerifiedEmail()) {
             return redirect()->route('auth.verification.verified');
         }
 

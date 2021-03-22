@@ -6,6 +6,7 @@ use App\Services\AuthService;
 use App\Services\UserService;
 use App\Services\PasswordResetService;
 use App\Http\Requests\API\User\UpdatePasswordRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class PasswordResetController extends Controller
 {
@@ -32,7 +33,7 @@ class PasswordResetController extends Controller
             abort(404, 'There was an error resetting your password');
         }
 
-        if ($user && ! $user->hasVerifiedEmail()) {
+        if ($user && $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
         }
 

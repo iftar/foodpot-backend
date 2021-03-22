@@ -102,7 +102,7 @@ class AuthController extends Controller
         /** @var User $user */
         $user = $userService->exists($request->input('email'));
 
-        if ($user && ! $user->hasVerifiedEmail()) {
+        if ($user && $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
             $user->sendEmailVerificationNotification();
         }
 
