@@ -6,6 +6,7 @@ use App\Models\CharityUser;
 use App\Models\User;
 use App\Services\Charity\CharityService;
 use App\Services\UserService;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Response;
 use App\Services\AuthService;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class AuthController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        if ( ! $user->hasVerifiedEmail()) {
+        if ( $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'User has not verified email'
