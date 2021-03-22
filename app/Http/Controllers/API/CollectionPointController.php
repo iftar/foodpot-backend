@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\Request;
 use App\Models\CollectionPoint;
 use App\Models\Meal;
 use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\All\PostcodeService;
+use Illuminate\Http\Request;
 
 class CollectionPointController extends Controller
 {
-    public function index(AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    public function index(Request $request, CollectionPointService $collectionPointService)
     {
         return response()->json([
             'status' => 'success',
@@ -22,7 +22,7 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function indexNearMe(AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
+    public function indexNearMe(Request $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
     {
         $postCode = $request->input('postcode');
         $food_type_filter = $request->input("food_type_filter") ?? [];
@@ -63,7 +63,7 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function show($id, AuthenticatedRequest $request, CollectionPointService $collectionPointService)
+    public function show($id, Request $request, CollectionPointService $collectionPointService)
     {
         if( !is_numeric($id) ) {
             $collection_point = CollectionPoint::where("slug", $id)->first();
@@ -79,7 +79,7 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function canDeliverToLocation($collectionPointId, AuthenticatedRequest $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
+    public function canDeliverToLocation($collectionPointId, Request $request, CollectionPointService $collectionPointService, PostcodeService $postcodeService)
     {
         $postCode = $request->input('postcode');
 
