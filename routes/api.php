@@ -23,7 +23,11 @@ Route::get('/collection-points/{id}/meals', 'CollectionPointController@getMeals'
 Route::get("/tags/dietary-requirements", "TagController@getDietaryRequirementsTags");
 Route::get("/tags/food-type", "TagController@getFoodTypeTags");
 
-
+Route::get('/charities', 'CharityController@index');
+Route::post('/collection-points/{id}/can-deliver-to-location', 'CollectionPointController@canDeliverToLocation');
+Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
+Route::get('/collection-points/{id}', 'CollectionPointController@show');
+Route::get('/collection-points', 'CollectionPointController@index');
 // Authenticated
 Route::group(['middleware' => ['auth:api']], function () {
 
@@ -61,11 +65,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/orders/today', 'OrderController@index');
     });
 
-    Route::get('/charities', 'CharityController@index');
-    Route::post('/collection-points/{id}/can-deliver-to-location', 'CollectionPointController@canDeliverToLocation');
-    Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
-    Route::get('/collection-points/{id}', 'CollectionPointController@show');
-    Route::get('/collection-points', 'CollectionPointController@index');
+
 
     Route::post('logout', 'AuthController@logout');
 });
