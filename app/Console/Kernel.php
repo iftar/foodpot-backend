@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('orders:collection-points')
                  ->dailyAt('15:05')
                  ->timezone($timezone);
-
+        $schedule->command('telescope:prune --hours=48')->daily();
 //        $schedule->command('orders:charities')
 //                 ->dailyAt('15:05')
 //                 ->timezone($timezone);
