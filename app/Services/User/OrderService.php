@@ -112,12 +112,11 @@ class OrderService
         );
     }
 
-    public function canOrder(CollectionPointTimeSlot $collectionPointTimeSlot)
+    public function canOrder()
     {
         $result = [
             'user_can_order'             => false,
             'user_has_ordered_today'     => true,
-            'time_passed_daily_deadline' => true,
             'messages' => [],
         ];
 
@@ -136,13 +135,6 @@ class OrderService
         if ( $todaysOrderCount == 0 ) $result['user_has_ordered_today'] = false;
         else $result['messages'][] = "User has already ordered today.";
 
-        // check if between 12am and 3pm
-        $now   = Carbon::now('Europe/London');
-        $start = Carbon::createFromTimeString('00:00', 'Europe/London');
-        $end   = Carbon::createFromTimeString($collectionPointTimeSlot->collectionPoint->cut_off_point, 'Europe/London');
-
-        if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) $result['time_passed_daily_deadline'] = false;
-        else $result['messages'][] = "Today's deadline time has passed.";
 
         // update can order status
         $result['user_can_order'] = ! $result['user_has_ordered_today'] && ! $result['time_passed_daily_deadline'];
