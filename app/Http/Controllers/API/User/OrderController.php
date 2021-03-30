@@ -11,6 +11,7 @@ use App\Http\Requests\API\User\Order\UpdateRequest;
 use App\Http\Requests\API\User\Order\DeleteRequest;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\User\CollectionPointService;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
@@ -64,13 +65,26 @@ class OrderController extends Controller
         }
 
 
-        $canOrder = $orderService->canOrder($collectionPointTimeSlot);
+        $canOrder = $orderService->canOrder();
         if ( ! $canOrder['user_can_order'] ) {
             return response()->json([
                 'status'  => 'error',
                 'message' => $canOrder["messages"],
             ], Response::HTTP_BAD_REQUEST);
         }
+
+        // check if between 12am and cut off time
+        $now   = Carbon::now('Europe/London');
+        $start = Carbon::createFromTimeString('00:00', 'Europe/London');
+        $end   = Carbon::createFromTimeString($collectionPointTimeSlot->collectionPoint->cut_off_point, 'Europe/London');
+
+        if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Today's deadline time has passed.",
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         if( empty($request->meals) ) {
             return response()->json([
                 'status'  => 'error',
