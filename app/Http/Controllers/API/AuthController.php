@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\CharityCollectionPoint;
 use App\Models\CharityUser;
+use App\Models\CollectionPoint;
 use App\Models\User;
 use App\Services\Charity\CharityService;
+use App\Services\CollectionPoint\CollectionPointService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Response;
 use App\Services\AuthService;
@@ -67,12 +71,45 @@ class AuthController extends Controller
         $user = $userService->create($request->all());
         if($request->input("type") === "charity") {
             $charity = (new CharityService)->create([
-                "name" => $request->input("charity_name")
+                'name' => $request->input('charity_name'),
+                'registration_number' => $request->input('registration_number'),
+                'contact_telephone' => $request->input('contact_telephone'),
+                'company_website' => $request->input('company_website'),
+                'cut_off_point'      => $request->input('cut_off_point') ?? Carbon::parse('3pm')->toTimeString(),
             ]);
 
             CharityUser::create([
-                "user_id" => $user->id,
-                "charity_id" => $charity->id
+                'user_id' => $user->id,
+                'charity_id' => $charity->id
+            ]);
+
+            $slug = (new CollectionPointService())->slugify($request->input('slug'));
+
+            $collection_point = CollectionPoint::create([
+                'name'               => $request->input('charity_name'),
+                'address_line_1'     => $request->input('address_line_1'),
+                'address_line_2'     => $request->input('address_line_2'),
+                'city'               =>  $request->input('city'),
+                'county'             => $request->input('county'),
+                'post_code'          => $request->input('post_code'),
+                'max_daily_capacity' => $request->input('max_daily_capacity') ?? 0,
+                'cut_off_point'      => $request->input('cut_off_point') ?? Carbon::parse('3pm')->toTimeString(),
+                'slug' => $slug
+            ]);
+
+            CharityCollectionPoint::create([
+                'collection_point_id' => $collection_point->id,
+                'charity_id' => $charity->id,
+            ]);
+
+
+            return response()->json([
+                'status' => 'success',
+                'data'   => [
+                    'user' => $user,
+                    'collection_point' => $collection_point,
+                    'charity' => $charity
+                ]
             ]);
         }
 
