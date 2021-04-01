@@ -5,6 +5,7 @@ namespace App\Services\CollectionPoint;
 use App\Models\CollectionPoint;
 use App\Events\CollectionPoint\Created;
 use App\Events\CollectionPoint\Updated;
+use Illuminate\Support\Facades\DB;
 
 class CollectionPointService
 {
@@ -60,5 +61,16 @@ class CollectionPointService
         return $collection->only(
             with((new CollectionPoint())->getFillable())
         );
+    }
+
+    public function slugify($title)
+    {
+        $slug = preg_replace("/-$/", "", preg_replace('/[^a-z0-9]+/i', "-", strtolower($title)));
+
+        $count = DB::table("collection_points")
+            ->where("slug", "LIKE", "%$slug%")
+            ->count();
+
+        return ($count > 0) ? ($slug . '-' . $count) : $slug;
     }
 }
