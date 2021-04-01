@@ -182,4 +182,54 @@ class CharityTest extends TestCase
 
 
     }
+
+    public function testRegisterCharityUserMissingNullableFields()
+    {
+        $password = $this->faker->password;
+        $postData = [
+            'email' => $this->faker->email,
+            'password' => $password,
+            'confirm' => $password,
+            "charity_name" => $this->faker->company,
+            'type' => 'charity',
+            'registration_number' => $this->faker->name,
+            'contact_telephone' => $this->faker->phoneNumber,
+            "address_line_1" => $this->faker->streetName,
+            "address_line_2" => $this->faker->streetAddress,
+            "city" => $this->faker->city,
+            "county" => $this->faker->country,
+            "post_code" => $this->faker->postcode,
+        ];
+
+        $response = $this->postJson('/api/register', $postData);
+        $collection_point = CollectionPoint::find(1);
+
+        $this->assertNotNull($collection_point);
+        $this->assertTrue($collection_point->charity->contains("id", 1));
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                "status" => "success",
+                "data" => [
+                    "user" => [
+                        'email' => $postData['email'],
+                        'type' => $postData['type'],
+                        'status' => 'approved',
+                    ],
+                    "collection_point" => [
+                        "id" => 1,
+                        "address_line_1" => $postData['address_line_1'],
+                        "address_line_2" => $postData['address_line_2'],
+                        "city" => $postData['city'],
+                        "county" => $postData['county'],
+                        "post_code" => $postData['post_code'],
+                    ],
+                    "charity" => [
+                        'id' => 1,
+                        'name' => $postData['charity_name'],
+                        'registration_number' => $postData['registration_number'],
+                        'contact_telephone' => $postData['contact_telephone'],
+                    ]
+                ]]);
+    }
 }
