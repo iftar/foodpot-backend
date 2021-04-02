@@ -19,16 +19,17 @@ class CollectionPointService
     public function create($data)
     {
         $collectionPoint = CollectionPoint::create([
-            "name"               => $data["name"],
-            "address_line_1"     => $data["address_line_1"],
-            "address_line_2"     => $data["address_line_2"],
-            "city"               => $data["city"],
-            "county"             => $data["county"],
-            "start_pick_up_time"       => $data['start_pick_up_time'] ,
+            "name"                   => $data["name"],
+            "address_line_1"         => $data["address_line_1"],
+            "address_line_2"         => $data["address_line_2"],
+            "city"                   => $data["city"],
+            "county"                 => $data["county"],
+            "start_pick_up_time"     => $data['start_pick_up_time'] ,
             "end_pick_up_time"       => $data['end_pick_up_time'],
-            "cut_off_point"      => $data['cut_off_point'],
-            "post_code"          => $data["post_code"],
-            "max_daily_capacity" => $data["max_daily_capacity"],
+            "cut_off_point"          => $data['cut_off_point'],
+            "post_code"              => $data["post_code"],
+            "max_daily_capacity"     => $data["max_daily_capacity"],
+            "slug"                   => $data["slug"] ?? null
         ]);
 
         event(new Created($collectionPoint));

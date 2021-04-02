@@ -20,7 +20,8 @@ class CollectionPoint extends Model
         'post_code',
         'max_daily_capacity',
         'delivery_radius',
-        'cut_off_point'
+        'cut_off_point',
+        'slug'
     ];
 
     protected $hidden = [
