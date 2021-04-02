@@ -137,7 +137,7 @@ class OrderService
 
 
         // update can order status
-        $result['user_can_order'] = ! $result['user_has_ordered_today'] && ! $result['time_passed_daily_deadline'];
+        $result['user_can_order'] = ! $result['user_has_ordered_today'];
 
         return $result;
     }

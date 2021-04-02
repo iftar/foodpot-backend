@@ -78,7 +78,7 @@ class OrderController extends Controller
         $start = Carbon::createFromTimeString('00:00', 'Europe/London');
         $end   = Carbon::createFromTimeString($collectionPointTimeSlot->collectionPoint->cut_off_point, 'Europe/London');
 
-        if ( $now->between($start, $end) || !config('shareiftar.enable_timeout') ) {
+        if ( !$now->between($start, $end) || !config('shareiftar.enable_timeout') ) {
             return response()->json([
                 'status'  => 'error',
                 'message' => "Today's deadline time has passed.",
