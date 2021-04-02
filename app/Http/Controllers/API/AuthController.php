@@ -75,7 +75,6 @@ class AuthController extends Controller
                 'registration_number' => $request->input('registration_number'),
                 'contact_telephone' => $request->input('contact_telephone'),
                 'company_website' => $request->input('company_website'),
-                'cut_off_point'      => $request->input('cut_off_point') ?? Carbon::parse('3pm')->toTimeString(),
             ]);
 
             CharityUser::create([
@@ -83,7 +82,7 @@ class AuthController extends Controller
                 'charity_id' => $charity->id
             ]);
 
-            $slug = (new CollectionPointService())->slugify($request->input('slug'));
+            $slug = (new CollectionPointService())->slugify($request->input('charity_name'));
 
             $collection_point = CollectionPoint::create([
                 'name'               => $request->input('charity_name'),
