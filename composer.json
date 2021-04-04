@@ -25,7 +25,8 @@
         "sentry/sentry-laravel": "1.7.0",
         "lcobucci/jwt": "3.3.3",
         "moontoast/math": "1.1.2 as 1.999.999",
-        "phpseclib/bcmath_compat": "1.0.4"
+        "phpseclib/bcmath_compat": "1.0.4",
+        "laravel/nova": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
@@ -92,5 +93,11 @@
             "php artisan passport:keys"
         ],
         "post-update-cmd": []
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        }
+    ]
 }
