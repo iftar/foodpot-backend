@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Passport\Passport;
@@ -41,6 +42,7 @@ class UserAuthenticationTest extends TestCase
 
     public function testRegisterThenLoginWithoutVerifying()
     {
+        $this->seed(OauthClientSeeder::class);
         // register
         $password = $this->faker->password;
         $postData = [
@@ -71,13 +73,17 @@ class UserAuthenticationTest extends TestCase
             "password" => $postData["password"],
         ];
         $response = $this->postJson('/api/login', $loginData);
-
-        $response
-            ->assertStatus(401)
-            ->assertJson([
-                "status" => "error",
-                "message" => "User has not verified email"
-            ]);
+        if(User::class instanceof MustVerifyEmail) {
+            $response
+                ->assertStatus(401)
+                ->assertJson([
+                    "status" => "error",
+                    "message" => "User has not verified email"
+                ]);
+        } else {
+            $response
+                ->assertStatus(200);
+        }
     }
 
     public function testRegisterThenLoginAfterVerifying()

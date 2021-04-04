@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\CharityCollectionPoint;
 use App\Models\CharityUser;
+use App\Models\CollectionPoint;
 use App\Models\User;
 use App\Services\Charity\CharityService;
+use App\Services\CollectionPoint\CollectionPointService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Response;
 use App\Services\AuthService;
@@ -14,6 +18,7 @@ use App\Http\Requests\API\User\LoginRequest;
 use App\Http\Requests\API\User\RegisterRequest;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Http\Requests\API\User\ResendVerifyEmailRequest;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -66,14 +71,52 @@ class AuthController extends Controller
         }
         $user = $userService->create($request->all());
         if($request->input("type") === "charity") {
-            $charity = (new CharityService)->create([
-                "name" => $request->input("charity_name")
-            ]);
+            try {
+                DB::beginTransaction();
+                $charity = (new CharityService)->create([
+                    'name' => $request->input('charity_name'),
+                    'registration_number' => $request->input('registration_number'),
+                    'contact_telephone' => $request->input('contact_telephone'),
+                    'company_website' => $request->input('company_website'),
+                ]);
 
-            CharityUser::create([
-                "user_id" => $user->id,
-                "charity_id" => $charity->id
-            ]);
+                CharityUser::create([
+                    'user_id' => $user->id,
+                    'charity_id' => $charity->id
+                ]);
+
+                $slug = (new CollectionPointService())->slugify($request->input('charity_name'));
+
+                $collection_point = CollectionPoint::create([
+                    'name'               => $request->input('charity_name'),
+                    'address_line_1'     => $request->input('address_line_1'),
+                    'address_line_2'     => $request->input('address_line_2'),
+                    'city'               =>  $request->input('city'),
+                    'county'             => $request->input('county'),
+                    'post_code'          => $request->input('post_code'),
+                    'max_daily_capacity' => $request->input('max_daily_capacity') ?? 0,
+                    'cut_off_point'      => $request->input('cut_off_point') ?? Carbon::parse('3pm')->toTimeString(),
+                    'slug' => $slug
+                ]);
+
+                CharityCollectionPoint::create([
+                    'collection_point_id' => $collection_point->id,
+                    'charity_id' => $charity->id,
+                ]);
+
+                DB::commit();
+                return response()->json([
+                    'status' => 'success',
+                    'data'   => [
+                        'user' => $user,
+                        'collection_point' => $collection_point,
+                        'charity' => $charity
+                    ]
+                ]);
+            } catch (\Exception $e ){
+                DB::rollBack();
+                return response()->json(["message" => $e->getMessage()], 500);
+            }
         }
 
 
