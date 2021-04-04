@@ -113,7 +113,7 @@ class CollectionPointController extends Controller
         ]);
     }
 
-    public function getMeals($id) {
+    public function getMeals(int $id) {
         $meals = Meal::with("tags")->where("collection_point_id", $id)->get();
 
         if($meals->isEmpty()) {
