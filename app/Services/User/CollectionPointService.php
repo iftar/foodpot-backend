@@ -29,7 +29,7 @@ class CollectionPointService
             }
         }
 
-        return $filtered;
+        return array_unique($filtered);
     }
 
     public function listNearLatLong($collectionPoints, $userLat, $userLong)
