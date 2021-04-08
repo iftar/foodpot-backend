@@ -14,7 +14,7 @@ class CreateCollectionPointsTable extends Migration
     public function up()
     {
         Schema::create('collection_points', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string('name');
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();

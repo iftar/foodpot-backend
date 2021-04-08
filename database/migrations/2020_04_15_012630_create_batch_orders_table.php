@@ -14,7 +14,7 @@ class CreateBatchOrdersTable extends Migration
     public function up()
     {
         Schema::create('batch_orders', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->unsignedInteger('batch_id');
             $table->unsignedInteger('order_id');
             $table->timestamps();

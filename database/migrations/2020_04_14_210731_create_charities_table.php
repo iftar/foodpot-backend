@@ -14,7 +14,7 @@ class CreateCharitiesTable extends Migration
     public function up()
     {
         Schema::create('charities', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string('name');
             $table->string('registration_number')->nullable();
             $table->integer('max_delivery_capacity')->default(0);
