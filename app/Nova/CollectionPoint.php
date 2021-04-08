@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laraning\NovaTimeField\TimeField;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -27,7 +30,7 @@ class CollectionPoint extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -35,7 +38,7 @@ class CollectionPoint extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -47,7 +50,7 @@ class CollectionPoint extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id'),
             Text::make("Name"),
             Text::make("Address Line 1"),
             Text::make("Address Line 2"),
@@ -64,10 +67,25 @@ class CollectionPoint extends Resource
             Number::make("max daily capacity"),
             Slug::make("slug"),
             TimeField::make("cut_off_point"),
-            Number::make("set_quantity_per_person")
+            Number::make("set_quantity_per_person"),
+            HasMany::make("Meals"),
+//            HasOne::make("charity")
         ];
     }
 
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(auth()->user()->type == "admin") return $query;
+        $charities = $request->user()->charities->pluck("id")->toArray();
+        return $query->whereIn("collection_points.id", array_values($charities));
+    }
     /**
      * Get the cards available for the request.
      *
@@ -112,17 +130,4 @@ class CollectionPoint extends Resource
         return [];
     }
 
-    /**
-     * Build an "index" query for the given resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        $charities = $request->user()->charities->pluck("id")->toArray();
-        Log::info($request->user());
-        return $query->whereIn("id", $charities);
-    }
 }

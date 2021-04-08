@@ -4,6 +4,9 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Tag extends Resource
@@ -20,7 +23,7 @@ class Tag extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -28,7 +31,7 @@ class Tag extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'name'
     ];
 
     /**
@@ -41,6 +44,12 @@ class Tag extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make("Name"),
+            Image::make("image_url"),
+            Select::make("Type")->options([
+                'FOOD_TYPE_TAG' => 'FOOD_TYPE_TAG',
+                'DIETARY_REQUIREMENT_TAG' => 'DIETARY_REQUIREMENT_TAG'
+            ]),
         ];
     }
 

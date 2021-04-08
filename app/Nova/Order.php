@@ -64,6 +64,19 @@ class Order extends Resource
     }
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(auth()->user()->type == "admin") return $query;
+        $charities = $request->user()->charities->pluck("id")->toArray();
+        return $query->whereIn("orders.id", array_values($charities));
+    }
+    /**
      * Get the cards available for the request.
      *
      * @param  \Illuminate\Http\Request  $request
