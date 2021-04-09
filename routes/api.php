@@ -27,7 +27,7 @@ Route::get('/charities', 'CharityController@index');
 Route::post('/collection-points/{id}/can-deliver-to-location', 'CollectionPointController@canDeliverToLocation');
 Route::post('/collection-points/near-me', 'CollectionPointController@indexNearMe');
 Route::get('/collection-points/{id}', 'CollectionPointController@show');
-Route::get('/collection-points', 'CollectionPointController@index');
+Route::match(['GET','POST'],'/collection-points', 'CollectionPointController@index');
 // Authenticated
 Route::group(['middleware' => ['auth:api']], function () {
 
