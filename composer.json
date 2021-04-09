@@ -11,6 +11,7 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "dashboard/orders": "*",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -27,7 +28,8 @@
         "messagebird/php-rest-api": "^1.16",
         "moontoast/math": "1.1.2 as 1.999.999",
         "phpseclib/bcmath_compat": "1.0.4",
-        "sentry/sentry-laravel": "1.7.0"
+        "sentry/sentry-laravel": "1.7.0",
+        "vmitchell85/nova-links": "^1.0"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
@@ -99,6 +101,10 @@
         {
             "type": "path",
             "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Orders"
         }
     ]
 }
