@@ -50,7 +50,6 @@ class Charity extends Resource
             Text::make(__('Name'), 'name'),
             Text::make('registration_number')->sortable(),
             Number::make("max_delivery_capacity"),
-            Number::make("max_delivery_capacity"),
             Text::make("company_website"),
             Text::make("contact_telephone"),
             Text::make("logo"),

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\TodaysOrders;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -45,7 +46,6 @@ class Order extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make("first_name")->readonly(),
             Text::make("first_name"),
             Text::make("last_name"),
             Text::make("phone"),
@@ -60,6 +60,7 @@ class Order extends Resource
             BelongsTo::make("user"),
             Date::make("required_date"),
             BelongsTo::make("collectionPointTimeSlot"),
+            BelongsTo::make("collectionPoint"),
         ];
     }
 
@@ -73,8 +74,8 @@ class Order extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         if(auth()->user()->type == "admin") return $query;
-        $charities = $request->user()->charities->pluck("id")->toArray();
-        return $query->whereIn("orders.id", array_values($charities));
+        $collection_point_id = $request->user()->charities->first()->collectionPoints->first()->id;
+        return $query->where("orders.collection_point_id", $collection_point_id);
     }
     /**
      * Get the cards available for the request.
@@ -95,7 +96,9 @@ class Order extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new TodaysOrders()
+        ];
     }
 
     /**
