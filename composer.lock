@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c34a67b7a923497014f8ab4eb611ea05",
+    "content-hash": "48666f808bde8ae01ce60b78cf934eac",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -362,6 +362,42 @@
             "autoload": {
                 "psr-4": {
                     "Dashboard\\Orders\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "dashboard/setting-display",
+            "version": "dev-feature/settin-up-nova-dashboard",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/SettingDisplay",
+                "reference": "bc8fff9128be8896ec9befa5084c425999d91089"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dashboard\\SettingDisplay\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dashboard\\SettingDisplay\\": "src/"
                 }
             },
             "license": [
@@ -1629,6 +1665,51 @@
                 "source": "https://github.com/http-interop/http-factory-guzzle/tree/master"
             },
             "time": "2018-07-31T19:32:56+00:00"
+        },
+        {
+            "name": "imumz/nova-map-card",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iMuMz/NovaMapCard.git",
+                "reference": "26976f9ff02a053ce316d72428c09fc0b537b6c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iMuMz/NovaMapCard/zipball/26976f9ff02a053ce316d72428c09fc0b537b6c2",
+                "reference": "26976f9ff02a053ce316d72428c09fc0b537b6c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Imumz\\NovaMapCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Imumz\\NovaMapCard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/iMuMz/NovaMapCard/issues",
+                "source": "https://github.com/iMuMz/NovaMapCard/tree/1.0"
+            },
+            "time": "2020-12-14T07:13:13+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -8282,16 +8363,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.8.2",
+            "version": "2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "cb7f790e6306caeb4a9ffe21e59942b7128cc630"
+                "reference": "a8201d51aae83addceaef9344592a3b068b5d64d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/cb7f790e6306caeb4a9ffe21e59942b7128cc630",
-                "reference": "cb7f790e6306caeb4a9ffe21e59942b7128cc630",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/a8201d51aae83addceaef9344592a3b068b5d64d",
+                "reference": "a8201d51aae83addceaef9344592a3b068b5d64d",
                 "shasum": ""
             },
             "require": {
@@ -8355,7 +8436,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-04-08T10:42:53+00:00"
+            "time": "2021-04-09T20:45:59+00:00"
         },
         {
             "name": "facade/ignition-contracts",

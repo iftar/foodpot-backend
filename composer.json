@@ -11,12 +11,15 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "dashboard/meals-display": "*",
         "dashboard/orders": "*",
+        "dashboard/setting-display": "*",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "fzaninotto/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^6.3",
+        "imumz/nova-map-card": "^1.0",
         "laraning/nova-time-field": "^1.2",
         "laravel/framework": "^7.0",
         "laravel/nova": "*",
@@ -29,8 +32,7 @@
         "moontoast/math": "1.1.2 as 1.999.999",
         "phpseclib/bcmath_compat": "1.0.4",
         "sentry/sentry-laravel": "1.7.0",
-        "vmitchell85/nova-links": "^1.0",
-        "dashboard/meals-display": "*"
+        "vmitchell85/nova-links": "^1.0"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
@@ -110,6 +112,10 @@
         {
             "type": "path",
             "url": "./nova-components/MealsDisplay"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/SettingDisplay"
         }
     ]
 }

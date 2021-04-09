@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Dashboard\MealsDisplay\MealsDisplay;
 use Dashboard\Orders\Orders;
+use Dashboard\SettingDisplay\SettingDisplay;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -59,7 +60,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             (new Orders())->withOrders(),
-            (new MealsDisplay())->withTodaysMeals()
+            (new MealsDisplay())->withTodaysMeals(),
+            (new SettingDisplay())->withSettingData()
         ];
     }
 

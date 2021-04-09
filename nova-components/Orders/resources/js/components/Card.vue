@@ -20,7 +20,6 @@ export default {
     ],
     methods: {
        redirect: function() {
-            console.log("aksjdlajs")
             // window.location.href = window.location.origin + '/nova/resources/orders'
        }
     },
