@@ -3,9 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 
 class User extends Resource
@@ -30,13 +32,13 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'first_name', 'last_name', 'email',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function fields(Request $request)
@@ -46,7 +48,11 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
+            Text::make('first_name')
+                ->sortable()
+                ->rules('required', 'max:255'),
+
+            Text::make('last_name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
@@ -55,8 +61,21 @@ class User extends Resource
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
+            Text::make("phone_number"),
+            Boolean::make("email_verified_at"),
+            Boolean::make("remember_token"),
+            Select::make("type")
+                ->options([
+                    "admin" => "admin",
+                    "user" => "user",
+                    "charity" => "charity",
+                    "collection-point" => "collection-point"
+                ]),
+            Select::make("status")->options([
+                "approved" => "approved"
+            ]),
+            Password::make(
+                'Password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
