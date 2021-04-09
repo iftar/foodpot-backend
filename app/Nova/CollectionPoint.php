@@ -24,7 +24,7 @@ class CollectionPoint extends Resource
      * @var string
      */
     public static $model = \App\Models\CollectionPoint::class;
-
+    public static $displayInNavigation = false;
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -83,8 +83,8 @@ class CollectionPoint extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         if(auth()->user()->type == "admin") return $query;
-        $charities = $request->user()->charities->pluck("id")->toArray();
-        return $query->whereIn("collection_points.id", array_values($charities));
+        $collectionPoints = $request->user()->charities->map->collectionPoints->flatten()->pluck("id")->toArray();
+        return $query->whereIn("collection_points.id", array_values($collectionPoints));
     }
     /**
      * Get the cards available for the request.

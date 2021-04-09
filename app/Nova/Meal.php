@@ -51,6 +51,11 @@ class Meal extends Resource
             BelongsTo::make("collectionPoint"),
             BelongsToMany::make("tags"),
             BelongsToMany::make("orders")
+                    ->fields(function () {
+                        return [
+                            Number::make('Quantity'),
+                        ];
+                    })
         ];
     }
 
@@ -64,8 +69,18 @@ class Meal extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         if(auth()->user()->type == "admin") return $query;
-        $charities = $request->user()->charities->pluck("id")->toArray();
-        return $query->whereIn("meals.id", array_values($charities));
+        $meals = $request
+            ->user()
+            ->charities
+            ->map
+            ->collectionPoints
+            ->flatten()
+            ->map
+            ->meals
+            ->flatten()
+            ->pluck("id")
+            ->toArray();
+        return $query->whereIn("meals.id", array_values($meals));
     }
     /**
      * Get the cards available for the request.
