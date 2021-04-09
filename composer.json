@@ -29,7 +29,8 @@
         "moontoast/math": "1.1.2 as 1.999.999",
         "phpseclib/bcmath_compat": "1.0.4",
         "sentry/sentry-laravel": "1.7.0",
-        "vmitchell85/nova-links": "^1.0"
+        "vmitchell85/nova-links": "^1.0",
+        "dashboard/meals-display": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",
@@ -105,6 +106,10 @@
         {
             "type": "path",
             "url": "./nova-components/Orders"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/MealsDisplay"
         }
     ]
 }

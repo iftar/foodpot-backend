@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Dashboard\MealsDisplay\MealsDisplay;
 use Dashboard\Orders\Orders;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
@@ -57,7 +58,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            (new Orders())->withOrders()
+            (new Orders())->withOrders(),
+            (new MealsDisplay())->withTodaysMeals()
         ];
     }
 
@@ -78,7 +80,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            (new \vmitchell85\NovaLinks\Links())
+                ->add('My Charity', url("/nova/resources/charities/". auth()->user()->charity()->id)),
+        ];
     }
 
     /**
