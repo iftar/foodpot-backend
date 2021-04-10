@@ -13,9 +13,9 @@ class CollectionPointService
                                 ->first();
     }
 
-    public function list()
+    public function list(int $per_page = 10)
     {
-        return CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->paginate(15);
+        return CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->paginate($per_page);
     }
 
     public function filterByTags($collection_points, $tags) {
