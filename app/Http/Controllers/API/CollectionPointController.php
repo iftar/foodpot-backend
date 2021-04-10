@@ -14,6 +14,20 @@ class CollectionPointController extends Controller
 {
     public function index(Request $request, CollectionPointService $collectionPointService)
     {
+        $food_type_filter = $request->input("food_type_filter") ?? [];
+        $dietary_requirements_filter = $request->input("dietary_requirements_filter") ?? [];
+
+        $tags = array_merge($food_type_filter, $dietary_requirements_filter);
+
+        if(!empty($tags)) {
+            return response()->json([
+                'status' => 'success',
+                'data'   => [
+                    'collection_points' => $collectionPointService->filterByTags(CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->get(), $tags)
+                ]
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
             'data'   => [
@@ -38,9 +52,11 @@ class CollectionPointController extends Controller
         if( !$postCode)
         {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Postcode paramaters are required.',
-            ], 500);
+                'status' => 'success',
+                'data'   => [
+                    'collection_points' => $filteredCollectionPoints
+                ]
+            ]);
         }
 
         $userLocation = $postcodeService->getLatLongForPostCode($postCode);
