@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Dashboard\MealsDisplay\MealsDisplay;
-use Dashboard\MealsCapacity\MealsCapacity;
 use Dashboard\Orders\Orders;
 use Dashboard\QuickLinks\QuickLinks;
 use Dashboard\SettingDisplay\SettingDisplay;
@@ -88,7 +87,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             (new \vmitchell85\NovaLinks\Links())
-                ->add('My Charity', url("/nova/resources/charities/". auth()->user()->charity()->id)),
+                ->add('My Charity', url("/nova/resources/charities/". auth()->user()->charity()->id))
+                ->add('My Collection Point', url("/nova/resources/collection-points/". auth()->user()->charity()->collectionPoints->first()->id)),
+
         ];
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Charity;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CharityPolicy
+class OrderPolicy
 {
     use HandlesAuthorization;
 
@@ -20,7 +20,6 @@ class CharityPolicy
         //
     }
 
-
     public function viewAny(User $user)
     {
         return  $user->type == 'charity' || "admin";
@@ -33,20 +32,20 @@ class CharityPolicy
     {
         return  $user->type == "admin";
     }
-    public function update(User $user, Charity $charity)
+    public function update(User $user, Order $order)
     {
         return  $user->type == 'charity' || "admin";
     }
-    public function delete(User $user, Charity $charity)
+    public function delete(User $user, Order $order)
     {
         return  $user->type ==  "admin";
     }
-    public function restore(User $user, Charity $charity)
+    public function restore(User $user, Order $order)
     {
         return  $user->type ==  "admin";
     }
 
-    public function forceDelete(User $user, Charity $charity)
+    public function forceDelete(User $user, Order $order)
     {
         return  $user->type ==  "admin";
     }

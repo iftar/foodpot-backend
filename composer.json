@@ -33,7 +33,7 @@
         "phpseclib/bcmath_compat": "1.0.4",
         "sentry/sentry-laravel": "1.7.0",
         "vmitchell85/nova-links": "^1.0",
-        "dashboard/quick-links": "*",
+        "dashboard/quick-links": "*"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8",

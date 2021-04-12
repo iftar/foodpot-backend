@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceIndexRequest;
 
 class Meal extends Resource
 {
@@ -47,28 +48,32 @@ class Meal extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Text::make("name"),
             Text::make("description"),
-            Number::make("total_quantity_available"),
+            Number::make("total_quantity_available")
+                ->hideFromIndex(function (ResourceIndexRequest $request) {
+                    return $request->viaRelationship();
+                }),
             BelongsTo::make("collectionPoint"),
             BelongsToMany::make("tags"),
             BelongsToMany::make("orders")
-                    ->fields(function () {
-                        return [
-                            Number::make('Quantity'),
-                        ];
-                    })
+                ->hideFromDetail()
+                ->fields(function () {
+                    return [
+                        Number::make('Quantity'),
+                    ];
+                })
         ];
     }
 
     /**
      * Build an "index" query for the given resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if(auth()->user()->type == "admin") return $query;
+        if (auth()->user()->type == "admin") return $query;
         $meals = $request
             ->user()
             ->charities

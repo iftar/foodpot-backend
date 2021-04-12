@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Charity;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CharityPolicy
+class TagPolicy
 {
     use HandlesAuthorization;
 
@@ -20,33 +20,32 @@ class CharityPolicy
         //
     }
 
-
     public function viewAny(User $user)
     {
-        return  $user->type == 'charity' || "admin";
+        return  $user->type ==  "admin";
     }
     public function view(User $user)
     {
-        return  $user->type == 'charity' || "admin";
+        return  $user->type == "admin";
     }
     public function create(User $user)
     {
         return  $user->type == "admin";
     }
-    public function update(User $user, Charity $charity)
+    public function update(User $user, Tag $tag)
     {
-        return  $user->type == 'charity' || "admin";
+        return  $user->type == "admin";
     }
-    public function delete(User $user, Charity $charity)
+    public function delete(User $user, Tag $tag)
     {
         return  $user->type ==  "admin";
     }
-    public function restore(User $user, Charity $charity)
+    public function restore(User $user, Tag $tag)
     {
         return  $user->type ==  "admin";
     }
 
-    public function forceDelete(User $user, Charity $charity)
+    public function forceDelete(User $user, Tag $tag)
     {
         return  $user->type ==  "admin";
     }
