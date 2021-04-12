@@ -71,7 +71,7 @@ class User extends Resource
                     "charity" => "charity",
                     "collection-point" => "collection-point"
                 ]),
-            Select::make("status")->options([
+            Select::make("Status","status")->options([
                 "approved" => "approved"
             ]),
             Password::make(

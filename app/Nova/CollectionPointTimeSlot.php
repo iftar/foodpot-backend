@@ -46,10 +46,10 @@ class CollectionPointTimeSlot extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make("CollectionPoint"),
-            TimeField::make("start_time"),
-            TimeField::make("end_time"),
-            Number::make("max_capacity"),
-            Text::make("type"),
+            TimeField::make("Start time", "start_time"),
+            TimeField::make("End time", "end_time"),
+            Number::make("Max Capacity", "max_capacity"),
+            Text::make("Type", "type"),
         ];
     }
     /**

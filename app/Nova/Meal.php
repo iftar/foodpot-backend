@@ -46,12 +46,14 @@ class Meal extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make("name"),
-            Text::make("description"),
-            Number::make("total_quantity_available")
+            Text::make(__("Name"), "name"),
+            Text::make(__("Description"), "description")
+                ->help("Give a brief description of what is included, ingredients, keep it brief! "),
+            Number::make(__("Total Available Quantity"), "total_quantity_available")
                 ->hideFromIndex(function (ResourceIndexRequest $request) {
                     return $request->viaRelationship();
-                }),
+                })
+                ->help("Enter the capacity for the day"),
             BelongsTo::make("collectionPoint"),
             BelongsToMany::make("tags"),
             BelongsToMany::make("orders")

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Davidpiesse\Map\Map;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,11 +54,14 @@ class CollectionPoint extends Resource
             ID::make(__('ID'), 'id'),
             Text::make("Name"),
             Text::make("Address Line 1"),
-            Text::make("Address Line 2"),
+            Text::make("Address Line 2")->hideFromIndex(),
             Text::make("City"),
-            Text::make("County"),
-            Text::make("Post Code"),
-            Select::make("Delivery Radius")->searchable()->options([
+            Text::make("County")->hideFromIndex(),
+            Text::make("Post code"),
+            Select::make("Delivery Radius")
+                ->searchable()
+                ->hideFromIndex()
+                ->options([
                 '5' => '5',
                 '15' => '15',
                 '20' => '20',
@@ -67,9 +71,20 @@ class CollectionPoint extends Resource
             Number::make("max daily capacity"),
             Slug::make("slug"),
             TimeField::make("cut_off_point"),
-            Number::make("set_quantity_per_person"),
+            Number::make("Latitude", "lat")->hideFromIndex(),
+            Number::make("Longitude", "lng")->hideFromIndex(),
+            Number::make("max daily capacity")
+                ->hideFromIndex()
+                ->hideFromDetail(),
+            Slug::make("slug")
+                ->hideFromIndex()
+                ->creationRules('unique:users,slug')
+                ->updateRules('unique:users,slug,{{resourceId}}'),
+            TimeField::make("Cut off point", "cut_off_point")
+                ->help("This is the time collection point stops taking orders"),
+            Number::make("Quantity Per Person", "set_quantity_per_person")
+                ->help("How many times can a user order?"),
             HasMany::make("Meals"),
-//            HasOne::make("charity")
         ];
     }
 

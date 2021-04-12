@@ -45,7 +45,7 @@ class Tag extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make("Name"),
-            Image::make("image_url"),
+            Image::make("Image", "image_url"),
             Select::make("Type")->options([
                 'FOOD_TYPE_TAG' => 'FOOD_TYPE_TAG',
                 'DIETARY_REQUIREMENT_TAG' => 'DIETARY_REQUIREMENT_TAG'

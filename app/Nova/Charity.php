@@ -49,14 +49,13 @@ class Charity extends Resource
         return [
             ID::make(__('ID'), 'id'),
             Text::make(__('Name'), 'name'),
-            Text::make('registration_number')->sortable(),
-            Number::make("max_delivery_capacity"),
-            Text::make("company_website"),
-            Text::make("contact_telephone"),
-            Text::make("logo"),
-            Text::make("personal_email"),
-            Text::make("personal_number"),
-            Boolean::make("has_food_hygiene_cert"),
+            Text::make("Charity Registration Number", 'registration_number')->sortable(),
+            Text::make("Company Website", "company_website"),
+            Text::make("Contact Telephone", "contact_telephone"),
+            Text::make("Logo", "logo"),
+            Text::make("Email", "personal_email"),
+            Text::make("Phone Number", "personal_number"),
+            Boolean::make("Food Hygiene Certified ", "has_food_hygiene_cert"),
             BelongsToMany::make("collectionPoints")
         ];
     }
