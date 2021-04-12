@@ -13,7 +13,9 @@
         "build-orders": "cd nova-components/Orders && npm run dev",
         "build-orders-prod": "cd nova-components/Orders && npm run prod",
         "build-setting-display": "cd nova-components/SettingDisplay && npm run dev",
-        "build-setting-display-prod": "cd nova-components/SettingDisplay && npm run prod"
+        "build-setting-display-prod": "cd nova-components/SettingDisplay && npm run prod",
+        "build-quick-links": "cd nova-components/QuickLinks && npm run dev",
+        "build-quick-links-prod": "cd nova-components/QuickLinks && npm run prod",
     },
     "devDependencies": {
         "axios": "^0.19",

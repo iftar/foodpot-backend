@@ -76,7 +76,7 @@ module.exports = __webpack_require__(6);
 /***/ (function(module, exports, __webpack_require__) {
 
 Nova.booting(function (Vue, router, store) {
-  Vue.component('meals-display', __webpack_require__(2));
+  Vue.component('quick-links', __webpack_require__(2));
 });
 
 /***/ }),
@@ -254,54 +254,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
-    data: function data() {
-        return {
-            computed_orders: false,
-            meals_capacity: false
-        };
-    },
+
     mounted: function mounted() {
-        var _this = this;
-
-        if (this.card.orders) {
-            this.computed_orders = this.card.orders.reduce(function (meal, order) {
-                meal[order.pivot.meal_id] = meal[order.pivot.meal_id] || { quantity: 0 };
-                meal[order.pivot.meal_id].quantity += order.pivot.quantity;
-                return meal;
-            }, {});
-
-            var _loop = function _loop(index) {
-                _this.computed_orders[index].meal = _this.card.meals.find(function (meal) {
-                    return meal.id === parseInt(index);
-                });
-            };
-
-            for (var index in this.computed_orders) {
-                _loop(index);
-            }
-        }
+        //
     }
 });
 
@@ -315,85 +273,29 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "card",
-    { staticClass: "flex flex-col items-start justify-center h-full" },
+    { staticClass: "flex flex-col items-center justify-center" },
     [
-      _c("div", { staticClass: "min-w-full px-8 py-3" }, [
+      _c("div", { staticClass: "px-3 py-3 w-2/3" }, [
         _c(
-          "h4",
+          "h1",
           {
-            staticClass: "font-bold text-center text-xl text-80 font-light mb-4"
+            staticClass: "font-bold text-center text-xl text-80 font-light mb-5"
           },
-          [_vm._v(_vm._s(this.card.heading))]
+          [_vm._v("Quick Links")]
         ),
         _vm._v(" "),
-        this.card.orders !== undefined &&
-        Object.keys(_vm.computed_orders).length !== 0
-          ? _c("div", [
-              _c(
-                "ul",
-                { staticClass: "list-reset" },
-                _vm._l(_vm.computed_orders, function(orders, index) {
-                  return _c(
-                    "li",
-                    { staticClass: "flex justify-between min-w-24 mb-1" },
-                    [
-                      _c("p", [_vm._v(_vm._s(orders.meal.name))]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c("p", [
-                          _c("span", { staticClass: "font-black" }, [
-                            _vm._v(_vm._s(orders.quantity))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "text-primary text-sm" }, [
-                            _vm._v("QTY")
-                          ])
-                        ])
-                      ])
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
-          : this.card.orders === undefined &&
-            Object.keys(this.card.meals).length !== 0
-          ? _c("div", [
-              _c(
-                "ul",
-                { staticClass: "list-reset" },
-                _vm._l(this.card.meals, function(meal) {
-                  return _c(
-                    "li",
-                    { staticClass: "flex justify-between min-w-24 mb-1" },
-                    [
-                      _c("p", [_vm._v(_vm._s(meal.name))]),
-                      _vm._v(" "),
-                      _c("div", [
-                        _c("p", [
-                          _c("span", { staticClass: "font-black" }, [
-                            _vm._v(_vm._s(meal.total_quantity_available))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "text-primary text-sm" }, [
-                            _vm._v("left")
-                          ])
-                        ])
-                      ])
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
-          : _c("div", [
-              _c("p", { staticClass: "text-center text-xl" }, [
-                _vm._v(
-                  " There has been no " +
-                    _vm._s(this.card.orders ? "orders" : "meals")
-                )
-              ])
-            ])
+        _c(
+          "div",
+          { staticClass: "flex flex-col items-left justify-center" },
+          [
+            _vm._l(_vm.card.links, function(link, linkName) {
+              return [
+                _c("a", { attrs: { href: link } }, [_vm._v(_vm._s(linkName))])
+              ]
+            })
+          ],
+          2
+        )
       ])
     ]
   )

@@ -49,7 +49,31 @@ class MealsDisplay extends Card
 
         return $this->withMeta([
             'orders' => $filtered_orders,
-            'meals' => $meals->toArray()
+            'meals' => $meals->toArray(),
+            'heading' => "Meals ordered"
+        ]);
+    }
+
+    /**
+     * Get the component name for the element.
+     *
+     * @return string
+     */
+    public function withMealsCapacity()
+    {
+        $user = auth()->user();
+
+        $meals = $user->charities
+            ->map
+            ->collectionPoints
+            ->flatten()
+            ->map
+            ->meals
+            ->flatten();
+
+        return $this->withMeta([
+            'meals' => $meals->toArray(),
+            'heading' => "Meals Capacity"
         ]);
     }
 

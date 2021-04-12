@@ -31,6 +31,7 @@ class SettingDisplay extends Card
         return $this->withMeta([
             'charity' => $charity,
             'collectionPoint' => $collectionPoint,
+            "cut_off_point_link" => url("/nova/resources/collection-points/". auth()->user()->charity()->collectionPoints->first()->id . "/edit")
         ]);
     }
 

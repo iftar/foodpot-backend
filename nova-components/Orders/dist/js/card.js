@@ -241,7 +241,8 @@ module.exports = function normalizeComponent (
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 //
 //
 //
@@ -255,13 +256,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
-    methods: {
-        redirect: function redirect() {
-            console.log("aksjdlajs");
-            // window.location.href = window.location.origin + '/nova/resources/orders'
-        }
+
+    data: function data() {
+        return {
+            numberOfOrders: 0
+        };
     },
-    mounted: function mounted() {}
+
+    methods: {},
+    mounted: function mounted() {
+        this.numberOfOrders = Object.keys(this.card.orders).length;
+        console.log(_typeof(this.card.orders));
+    }
 });
 
 /***/ }),
@@ -274,10 +280,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "card",
-    {
-      staticClass: "flex flex-col items-center justify-center cursor-pointer",
-      on: { click: _vm.redirect }
-    },
+    { staticClass: "flex flex-col items-center justify-center cursor-pointer" },
     [
       _c("div", { staticClass: "px-3 py-3" }, [
         _c(
@@ -291,7 +294,7 @@ var render = function() {
         _c("br"),
         _vm._v(" "),
         _c("p", { staticClass: "text-center text-4xl" }, [
-          _vm._v(_vm._s(_vm.card.orders.length))
+          _vm._v(_vm._s(_vm.numberOfOrders))
         ])
       ])
     ]

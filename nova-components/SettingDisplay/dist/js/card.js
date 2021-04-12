@@ -250,6 +250,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
@@ -267,19 +274,30 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "card",
-    { staticClass: "flex flex-col items-center justify-center" },
+    { staticClass: "flex flex-col items-center justify-center w-full" },
     [
-      _c("div", { staticClass: "px-3 py-3" }, [
+      _c("div", { staticClass: "px-8 py-3 w-2/3" }, [
         _c(
           "h1",
           {
-            staticClass: "font-bold text-center text-xl text-80 font-light mb-5"
+            staticClass: "font-bold text-center text-xl text-80 font-light mb-4"
           },
-          [_vm._v("Configuration")]
+          [_vm._v("Charity information")]
         ),
         _vm._v(" "),
-        _c("p", [
-          _vm._v("Last Order " + _vm._s(_vm.card.collectionPoint.cut_off_point))
+        _c("div", {}, [
+          _c("ul", { staticClass: "list-reset" }, [
+            _c("li", { staticClass: "flex justify-between" }, [
+              _vm._v("Cut off point\n                    "),
+              _c("span", { staticClass: "text-primary" }, [
+                _vm._v(_vm._s(_vm.card.collectionPoint.cut_off_point))
+              ]),
+              _vm._v(" "),
+              _c("a", { attrs: { href: _vm.card.cut_off_point_link } }, [
+                _vm._v("Edit")
+              ])
+            ])
+          ])
         ])
       ])
     ]

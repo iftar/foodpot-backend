@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Dashboard\MealsDisplay\MealsDisplay;
+use Dashboard\MealsCapacity\MealsCapacity;
 use Dashboard\Orders\Orders;
+use Dashboard\QuickLinks\QuickLinks;
 use Dashboard\SettingDisplay\SettingDisplay;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
@@ -59,9 +61,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
+            (new SettingDisplay())->withSettingData(),
             (new Orders())->withOrders(),
             (new MealsDisplay())->withTodaysMeals(),
-            (new SettingDisplay())->withSettingData()
+            (new MealsDisplay())->withMealsCapacity(),
+            (new QuickLinks())->addLinks()
         ];
     }
 
