@@ -14,7 +14,7 @@ class CreateCollectionPointUsersTable extends Migration
     public function up()
     {
         Schema::create('collection_point_users', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->unsignedInteger('collection_point_id');
             $table->unsignedInteger('user_id');
             $table->timestamps();

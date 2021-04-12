@@ -14,7 +14,7 @@ class CreateCollectionPointTimeSlotsTable extends Migration
     public function up()
     {
         Schema::create('collection_point_time_slots', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->unsignedInteger('collection_point_id');
             $table->time('start_time');
             $table->time('end_time');

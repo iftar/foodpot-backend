@@ -21,6 +21,8 @@ class CollectionPoint extends Model
         'max_daily_capacity',
         'delivery_radius',
         'cut_off_point',
+        'lat',
+        'lng',
         'slug'
     ];
 

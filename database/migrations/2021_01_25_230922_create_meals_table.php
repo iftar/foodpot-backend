@@ -14,7 +14,7 @@ class CreateMealsTable extends Migration
     public function up()
     {
         Schema::create('meals', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string("name");
             $table->string("description")->nullable();
             $table->integer("total_quantity_available");

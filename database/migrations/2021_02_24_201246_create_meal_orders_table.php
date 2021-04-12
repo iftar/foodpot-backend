@@ -14,7 +14,7 @@ class CreateMealOrdersTable extends Migration
     public function up()
     {
         Schema::create('meal_order', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->unsignedBigInteger("meal_id");
             $table->unsignedBigInteger("order_id");
             $table->integer("quantity");

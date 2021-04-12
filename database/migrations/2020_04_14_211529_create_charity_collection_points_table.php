@@ -14,7 +14,7 @@ class CreateCharityCollectionPointsTable extends Migration
     public function up()
     {
         Schema::create('charity_collection_points', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->unsignedInteger('charity_id');
             $table->unsignedInteger('collection_point_id');
             $table->timestamps();

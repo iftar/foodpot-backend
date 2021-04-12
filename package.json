@@ -7,7 +7,15 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "build-meals-display": "cd nova-components/MealsDisplay && npm run dev",
+        "build-meals-display-prod": "cd nova-components/MealsDisplay && npm run prod",
+        "build-orders": "cd nova-components/Orders && npm run dev",
+        "build-orders-prod": "cd nova-components/Orders && npm run prod",
+        "build-setting-display": "cd nova-components/SettingDisplay && npm run dev",
+        "build-setting-display-prod": "cd nova-components/SettingDisplay && npm run prod",
+        "build-quick-links": "cd nova-components/QuickLinks && npm run dev",
+        "build-quick-links-prod": "cd nova-components/QuickLinks && npm run prod",
     },
     "devDependencies": {
         "axios": "^0.19",
