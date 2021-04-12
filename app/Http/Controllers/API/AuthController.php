@@ -96,6 +96,15 @@ class AuthController extends Controller
                     $userLocation = (new PostcodeService())->getLatLongForPostCode($request->input("post_code"));
                 }
 
+                if( isset($userLocation) &&  isset($userLocation["error"]) )
+                {
+                    DB::rollBack();
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => $userLocation["error"],
+                    ]);
+                }
+
                 $collection_point = CollectionPoint::create([
                     'name'               => $request->input('charity_name'),
                     'address_line_1'     => $request->input('address_line_1'),
@@ -105,9 +114,9 @@ class AuthController extends Controller
                     'post_code'          => $request->input('post_code'),
                     'max_daily_capacity' => $request->input('max_daily_capacity') ?? 0,
                     'cut_off_point'      => $request->input('cut_off_point') ?? Carbon::parse('3pm')->toTimeString(),
-                    'lat'                => $userLocation["lat"] ?? $london_coords['lat'],
-                    'lng'                => $userLocation["lng"] ??  $london_coords['lng'],
-                    'slug' => $slug
+                    'lat'                => $userLocation["latitude"] ?? $london_coords['lat'],
+                    'lng'                => $userLocation["longitude"] ??  $london_coords['lng'],
+                    'slug'               => $slug
                 ]);
 
                 CharityCollectionPoint::create([
