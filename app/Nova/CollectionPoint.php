@@ -66,16 +66,18 @@ class CollectionPoint extends Resource
                 '15' => '15',
                 '20' => '20',
             ]),
-            Number::make("Lat"),
-            Number::make("Lng"),
-            Number::make("max daily capacity"),
-            Slug::make("slug"),
-            TimeField::make("cut_off_point"),
-            Number::make("Latitude", "lat")->hideFromIndex(),
-            Number::make("Longitude", "lng")->hideFromIndex(),
+            Number::make("Latitude", "lat")
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->hideWhenUpdating(),
+            Number::make("Longitude", "lng")
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->hideWhenUpdating(),
             Number::make("max daily capacity")
                 ->hideFromIndex()
-                ->hideFromDetail(),
+                ->hideFromDetail()
+                ->hideWhenUpdating(),
             Slug::make("slug")
                 ->hideFromIndex()
                 ->creationRules('unique:users,slug')
