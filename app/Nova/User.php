@@ -62,7 +62,6 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
             Text::make("phone_number"),
-            Boolean::make("email_verified_at"),
             Boolean::make("remember_token"),
             Select::make("type")
                 ->options([
