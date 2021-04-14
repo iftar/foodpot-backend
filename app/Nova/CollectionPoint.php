@@ -25,7 +25,11 @@ class CollectionPoint extends Resource
      * @var string
      */
     public static $model = \App\Models\CollectionPoint::class;
-    public static $displayInNavigation = false;
+
+    public function displayInNavigation() {
+        if(auth()->user()->type === "admin") return true;
+        return false;
+    }
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

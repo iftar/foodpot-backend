@@ -59,6 +59,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
+        if(auth()->user()->type === "admin" ) return [];
         return [
             (new SettingDisplay())->withSettingData(),
             (new Orders())->withOrders(),
@@ -85,6 +86,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
+        if(auth()->user()->type === "admin" ) return [];
         return [
             (new \vmitchell85\NovaLinks\Links())
                 ->add('My Charity', url("/nova/resources/charities/". auth()->user()->charity()->id))
