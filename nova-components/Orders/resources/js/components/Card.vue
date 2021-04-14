@@ -26,8 +26,7 @@ export default {
     methods: {
     },
     mounted() {
-        this.numberOfOrders = Object.keys( this.card.orders).length;
-        console.log(typeof this.card.orders)
+        this.numberOfOrders = Object.keys(this.card.orders).length;
     },
 }
 </script>

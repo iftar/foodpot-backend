@@ -32,26 +32,35 @@ class MealsDisplay extends Card
     public function withTodaysMeals()
     {
         $user = auth()->user();
-        $orders = $user->charities->first()->collectionPoints->first()->orders;
-        $filtered_orders =  $orders->filter(function($order) {
-            $created_at = Carbon::parse($order->created_at);
-            return $created_at->isToday();
-        });
-        $filtered_orders = $filtered_orders->map->meals->flatten();
+        if($user->charities->isNotEmpty()) {
+            $orders = $user->charities->first()->collectionPoints->first()->orders;
+            $filtered_orders =  $orders->filter(function($order) {
+                $created_at = Carbon::parse($order->created_at);
+                return $created_at->isToday();
+            });
+            $filtered_orders = $filtered_orders->map->meals->flatten();
 
-        $meals = $user->charities
-            ->map
-            ->collectionPoints
-            ->flatten()
-            ->map
-            ->meals
-            ->flatten();
+            $meals = $user->charities
+                ->map
+                ->collectionPoints
+                ->flatten()
+                ->map
+                ->meals
+                ->flatten();
+
+            return $this->withMeta([
+                'orders' => $filtered_orders,
+                'meals' => $meals->toArray(),
+                'heading' => "Meals ordered"
+            ]);
+        }
 
         return $this->withMeta([
-            'orders' => $filtered_orders,
-            'meals' => $meals->toArray(),
-            'heading' => "Meals ordered"
+            "heading" => "Meals ordered",
+            'orders' => [],
+            'meals' => [],
         ]);
+
     }
 
     /**
@@ -62,17 +71,22 @@ class MealsDisplay extends Card
     public function withMealsCapacity()
     {
         $user = auth()->user();
+        if($user->charities->isNotEmpty()) {
+            $meals = $user->charities
+                ->map
+                ->collectionPoints
+                ->flatten()
+                ->map
+                ->meals
+                ->flatten();
 
-        $meals = $user->charities
-            ->map
-            ->collectionPoints
-            ->flatten()
-            ->map
-            ->meals
-            ->flatten();
-
+            return $this->withMeta([
+                'meals' => $meals->toArray(),
+                'heading' => "Meals Capacity"
+            ]);
+        }
         return $this->withMeta([
-            'meals' => $meals->toArray(),
+            'meals' => [],
             'heading' => "Meals Capacity"
         ]);
     }

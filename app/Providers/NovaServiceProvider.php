@@ -86,7 +86,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        if(auth()->user()->type === "admin" ) return [];
+        $user = auth()->user();
+        if($user->type === "admin" || $user->charity() === null ) return [];
         return [
             (new \vmitchell85\NovaLinks\Links())
                 ->add('My Charity', url("/nova/resources/charities/". auth()->user()->charity()->id))

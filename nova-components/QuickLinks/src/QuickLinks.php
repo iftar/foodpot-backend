@@ -25,11 +25,18 @@ class QuickLinks extends Card
 
     public function addLinks()
     {
+        $user = auth()->user();
+        if($user->charity()) {
+            return $this->withMeta([
+                "links" => [
+                    "My Charity" => url("/nova/resources/charities/". auth()->user()->charity()->id),
+                    "My Collection point" =>  url("/nova/resources/collection-points/". auth()->user()->charity()->collectionPoints->first()->id)
+                ]
+            ]);
+        }
+
         return $this->withMeta([
-            "links" => [
-                "My Charity" => url("/nova/resources/charities/". auth()->user()->charity()->id),
-                "My Collection point" =>  url("/nova/resources/collection-points/". auth()->user()->charity()->collectionPoints->first()->id)
-            ]
+            "links" => []
         ]);
     }
 }

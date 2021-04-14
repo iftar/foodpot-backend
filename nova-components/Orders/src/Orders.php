@@ -42,12 +42,15 @@ class Orders extends Card
     public function withOrders()
     {
         $user = auth()->user();
-        $orders = $user->charities->first()->collectionPoints->first()->orders;
-        $filtered_orders =  $orders->filter(function($order) {
-            $created_at = Carbon::parse($order->created_at);
-           return $created_at->isToday();
-        });
+        if($user->charities->isNotEmpty()) {
+            $orders = $user->charities->first()->collectionPoints->first()->orders;
+            $filtered_orders =  $orders->filter(function($order) {
+                $created_at = Carbon::parse($order->created_at);
+                return $created_at->isToday();
+            });
 
-        return $this->withMeta(['orders' => $filtered_orders ]);
+            return $this->withMeta(['orders' => $filtered_orders ]);
+        }
+        return $this->withMeta([]);
     }
 }
