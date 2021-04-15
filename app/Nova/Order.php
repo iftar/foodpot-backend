@@ -80,7 +80,11 @@ class Order extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if(auth()->user()->type == "admin") return $query;
+        $user = auth()->user();
+        if($user->type == "admin") return $query;
+        if($user->type == "user") {
+            return $query->where("user_id", $user->id);
+        }
         $collection_point_id = $request->user()->charities->first()->collectionPoints->first()->id;
         return $query->where("orders.collection_point_id", $collection_point_id);
     }

@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
@@ -19,6 +20,10 @@ class User extends Resource
      */
     public static $model = \App\Models\User::class;
 
+    public static function availableForNavigation(Request $request) {
+        if(auth()->user()->type === "user") return false;
+        return true;
+    }
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
@@ -79,6 +84,13 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
         ];
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $user = auth()->user();
+        if($user->type === "admin") return $query;
+        return $query->where("id", $user->id);
     }
 
     /**

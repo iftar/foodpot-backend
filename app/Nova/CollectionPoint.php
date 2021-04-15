@@ -26,7 +26,7 @@ class CollectionPoint extends Resource
      */
     public static $model = \App\Models\CollectionPoint::class;
 
-    public function displayInNavigation() {
+    public static function availableForNavigation(Request $request) {
         if(auth()->user()->type === "admin") return true;
         return false;
     }

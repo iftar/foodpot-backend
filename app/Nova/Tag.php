@@ -18,6 +18,11 @@ class Tag extends Resource
      */
     public static $model = \App\Models\Tag::class;
 
+    public static function availableForNavigation(Request $request) {
+        if(auth()->user()->type === "user") return false;
+        return true;
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *

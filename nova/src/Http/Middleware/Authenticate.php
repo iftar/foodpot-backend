@@ -30,7 +30,7 @@ class Authenticate extends BaseAuthenticationMiddleware
 
             return parent::handle($request, $next, ...$guards);
         } catch (AuthenticationException $e) {
-            throw new NovaAuthenticationException('Unauthenticated.', $e->guards());
+            return redirect(url("/nova/login"));
         }
     }
 }

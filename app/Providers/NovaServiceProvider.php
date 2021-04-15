@@ -48,7 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
                 'afmire877@gmail.com'
-            ]) || $user->type === "charity";
+            ]) || $user->type === "charity" || $user->type === "user";
         });
     }
 
@@ -59,7 +59,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        if(auth()->user()->type === "admin" ) return [];
+        $user = auth()->user();
+        if($user->type === "admin" || $user->type === "user" ) return [];
         return [
             (new SettingDisplay())->withSettingData(),
             (new Orders())->withOrders(),
@@ -87,6 +88,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         $user = auth()->user();
+        if($user->type === "user") {
+            return [
+                (new \vmitchell85\NovaLinks\Links())
+                    ->add('My Profile', url("/nova/resources/users/". auth()->user()->id)),
+
+            ];
+        }
         if($user->type === "admin" || $user->charity() === null ) return [];
         return [
             (new \vmitchell85\NovaLinks\Links())
