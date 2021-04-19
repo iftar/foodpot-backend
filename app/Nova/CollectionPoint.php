@@ -84,8 +84,8 @@ class CollectionPoint extends Resource
                 ->hideWhenUpdating(),
             Slug::make("slug")
                 ->hideFromIndex()
-                ->creationRules('unique:users,slug')
-                ->updateRules('unique:users,slug,{{resourceId}}'),
+                ->creationRules('unique:slug')
+                ->updateRules('unique:slug,{{resourceId}}'),
             TimeField::make("Cut off point", "cut_off_point")
                 ->help("This is the time collection point stops taking orders"),
             Number::make("Quantity Per Person", "set_quantity_per_person")
