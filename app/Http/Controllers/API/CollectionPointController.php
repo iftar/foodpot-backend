@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\General\CollectionHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CollectionPoint;
 use App\Models\Meal;
@@ -9,6 +10,7 @@ use App\Services\User\CollectionPointService;
 use App\Http\Requests\API\User\AuthenticatedRequest;
 use App\Services\All\PostcodeService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class CollectionPointController extends Controller
 {
@@ -20,10 +22,13 @@ class CollectionPointController extends Controller
         $tags = array_merge($food_type_filter, $dietary_requirements_filter);
 
         if(!empty($tags)) {
+            $per_page  = 15;
+            $collection_points = collect($collectionPointService->filterByTags(CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->get(), $tags));
+            $paginator = (new CollectionHelper())->paginate($collection_points, $per_page);
             return response()->json([
                 'status' => 'success',
                 'data'   => [
-                    'collection_points' => $collectionPointService->filterByTags(CollectionPoint::with(['collectionPointTimeSlots', 'meals'])->get(), $tags)
+                    'collection_points' => $paginator
                 ]
             ]);
         }
@@ -44,7 +49,9 @@ class CollectionPointController extends Controller
 
         $tags = array_merge($food_type_filter, $dietary_requirements_filter);
         if(!empty($tags)) {
-            $filteredCollectionPoints = $collectionPointService->filterByTags(CollectionPoint::all(), $tags);
+            $per_page = 15;
+            $collection_points = collect($collectionPointService->filterByTags(CollectionPoint::all(), $tags));
+            $filteredCollectionPoints = (new CollectionHelper())->paginate($collection_points, $per_page);
         } else {
             $filteredCollectionPoints = CollectionPoint::all();
         }
