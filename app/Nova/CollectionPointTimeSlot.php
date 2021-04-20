@@ -52,7 +52,10 @@ class CollectionPointTimeSlot extends Resource
             BelongsTo::make("CollectionPoint"),
             TimeField::make("Start time", "start_time"),
             TimeField::make("End time", "end_time"),
-            Number::make("Max Capacity", "max_capacity"),
+            Number::make("Max Capacity", "max_capacity")
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ->hideFromIndex(),
             Text::make("Type", "type"),
         ];
     }
