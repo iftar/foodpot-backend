@@ -54,7 +54,6 @@ class CollectionPointTimeSlot extends Resource
             TimeField::make("End time", "end_time"),
             Number::make("Max Capacity", "max_capacity")
                 ->hideWhenUpdating()
-                ->hideWhenCreating()
                 ->hideFromIndex(),
             Text::make("Type", "type"),
         ];
