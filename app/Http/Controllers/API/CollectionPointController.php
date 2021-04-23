@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\General\CollectionHelper;
+use App\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CollectionPoint;
 use App\Models\Meal;

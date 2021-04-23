@@ -1,17 +1,22 @@
 <?php
 
 
-namespace App\Helpers\General;
+namespace App\Helpers;
 
 
 use Illuminate\Container\Container;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Traits\EnumeratesValues;
 
 class CollectionHelper
 {
+
+    public function __construct()
+    {
+
+    }
+
     public static function paginate(Collection $results, $pageSize)
     {
         $page = Paginator::resolveCurrentPage('page');
